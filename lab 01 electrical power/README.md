@@ -29,9 +29,9 @@ At your lab station, you should have the following items:
 
   
 
-  ![](sources\image1.jpeg)
+  ![](sources/image1.jpeg)
 
-  ![](sources\image2.jpeg)
+  ![](sources/image2.jpeg)
 
 ## setup
 
@@ -49,7 +49,7 @@ Note: Arduino MKR ZERO uses 3.3 V logic and may be damaged if it sees input grea
 
 
 
-![solar_bb](sources\solar_bb.svg)
+![solar_bb](sources/solar_bb.svg)
 
 ### INA 219 current sensor
 
