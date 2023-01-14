@@ -95,7 +95,7 @@ Create a folder on the desktop with your group name.
 
 Open `ArduCAM_Host_V2.exe` from the `ArduCAM_Host_V2.0_Windows` folder. 
 
-![ArduCAM_Host screenshot](sources\ArduCAM_Host screenshot.png)
+<img src="sources\ArduCAM_Host screenshot.png" alt="ArduCAM_Host screenshot" style="zoom:100%;" />
 
 Set the following options:
 
