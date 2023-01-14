@@ -47,6 +47,8 @@ solar array can meet mission requirements.
 
 ## setup
 
+Whenever you handle the Arduino or any microcontroller electronics, be sure that you have a grounding strap on, to prevent unintentional electro-static discharge (ESD). The strap should have contact with your skin and the banana plug end should plug into one of the grounding holes (indicated in red) on the front of your lab bench. There are two grounding plugs at each lab station.
+
 Build the electrical sensing components of FlatSAT. 
 
 - INA 219 current sensor
