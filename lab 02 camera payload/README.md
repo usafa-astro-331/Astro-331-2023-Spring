@@ -114,6 +114,8 @@ Take and save a photo of your team using ArduCAM.
 
 ### Measure and prepare resolution chart
 
+<img src="sources\ISO_12233-reschart.svg" alt="ISO_12233-reschart" style="zoom: 33%;" />
+
 - Using the metric ruler at your lab station, measure the height of the resolution chart (triangle-to-triangle). Note the remark at the top: "VALUES IN 100X LINES PER PICTURE HEIGHT."
 - Verify the scale of the resolution markings. If the image height is 200 mm, at the 1 mark there should be 100 lines/200 mm, making each line 2 mm wide. 
 - Note this scale for later use after the lab. 
