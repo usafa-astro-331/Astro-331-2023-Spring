@@ -7,9 +7,21 @@ You will also record the incident luminosity with a luxmeter.
 In your final lab report, you will compare your prelab performance predictions to the results you record in this lab. You will present your I-V plot and use it to identify your array's peak power. You will calculate array efficiency using the incident luminosity and the peak power generated. Finally, you will recommend any design changes necessary to ensure the
 solar array can meet mission requirements.
 
-## equipment 
+## documentation
 
-At your lab station, you should have the following items:
+- 16 x 2 character LCD pinout
+- Arduino MKR Zero pinout
+- INA 219 datasheet
+- `lab 01 electrical power.ino`
+
+## software
+
+- Arduino IDE
+- Arduino libraries (install by running `install_libraries.bat`)
+  - LiquidCrystal
+  - Adafruit INA219
+
+## hardware
 
 * ESD-safe grounding straps
 
