@@ -2,7 +2,7 @@
 
 You will need to install several programs. This folder contains programs and batch scripts to setup the correct computing environment. These tools are setup for Windows. Equivalent tools exist for Mac or Linux, but you'll have to install your own. 
 
-If you are using the Astro 331 lab computers, git is already installed and the course repository is already cloned. 
+If you are using the Astro 331 lab computers, git and the editors are already installed, the Arduino environment is already updated, and the course repository is already cloned. 
 
 
 
