@@ -164,7 +164,7 @@ Take FlatSAT and the luxmeter outside and find a test site in direct sunlight.
 
 Point the luxmeter toward the sun and record the sun's power in lux. You will have to adjust the range to its maximum setting. The measured value may jump around, try to take an average value. Record the average for later use calculating efficiency. 
 
-Point FlatSAT at the sun and power it on. *Very* slowly turn the potentiometer from one end to another. Record the current and voltage from the LCD display as a backup in case the stored data gets corrupted or lost. 
+Point FlatSAT at the sun and power it on. *Very* slowly turn the potentiometer from one end to another. FlatSAT will record current and voltage at 1-second intervals. You will record periodic current and voltage measurements from the LCD display as a backup in case the stored data gets corrupted or lost. 
 
 Disconnect power, rewire the solar array in parallel, and repeat these steps to collect the parallel I-V data. 
 
