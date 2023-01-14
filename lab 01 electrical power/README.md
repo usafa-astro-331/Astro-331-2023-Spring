@@ -49,21 +49,30 @@ solar array can meet mission requirements.
 
 Whenever you handle the Arduino or any microcontroller electronics, be sure that you have a grounding strap on, to prevent unintentional electro-static discharge (ESD). The strap should have contact with your skin and the banana plug end should plug into one of the grounding holes (indicated in red) on the front of your lab bench. There are two grounding plugs at each lab station.
 
-Build the electrical sensing components of FlatSAT. 
 
-- INA 219 current sensor
-- LCD display (this is test equipment and will not be used in space)
 
-Note: Arduino MKR ZERO uses 3.3 V logic and may be damaged if it sees input greater than 3.3 V. However, the LCD display requires 5 V power. Take care to keep the 3.3 V, 5 V, and 25 V power lines separate (all grounds should be connected, including Arduino's ground pin). 
 
-- Top rail: 3.3 V (diagram: orange wires)
-  - 3.3 V supply comes from VCC pin of Arduino
-- Bottom rail: 25 V (solar array---yellow wires)
-- 5V is supplied directly to the LCD from Arduino's 5V output pin (red wires)
+- connect power and ground lines
 
+  **Note**: Arduino MKR ZERO uses 3.3 V logic and may be damaged if it sees input greater than 3.3 V. However, the LCD display requires 5 V power. Take care to keep the 3.3 V, 5 V, and 25 V power lines separate (all grounds should be connected, including Arduino's ground pin). 
+
+
+  - Top rail: 3.3 V (diagram: orange wires)
+
+    - 3.3 V supply comes from VCC pin of Arduino
+
+  - Bottom rail: 25 V (solar array---yellow wires)
+  - 5V is supplied directly to the LCD from Arduino's 5V output pin (red wires)
 
 
 ![solar_bb](sources/solar_bb.svg)
+
+- Install current sensing and readout components on FlatSAT. 
+
+  - INA 219 current sensor
+
+
+  - LCD display (this is test equipment and will not be used in space)
 
 ### INA 219 current sensor
 
@@ -74,7 +83,7 @@ Connect power
 - VCC (3.3 V)
 - ground (any ground is fine)
 
-Connect I2C comm lines
+Connect I2C comm lines (blue and grey in the diagram)--ordinarily you would connect them directly to Arduino, but please follow the diagram to make room for future FlatSAT components
 
 - SDA
 - SCL
@@ -100,8 +109,7 @@ Connect backlight power
 
 Connect contrast circuit
 
-- 5 V and ground to 2 ends of potentiometer
-- middle of potentiometer to LCD pin 3
+- pin 3: ground
 
 Connect communication lines
 
