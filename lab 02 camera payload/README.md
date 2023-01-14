@@ -26,6 +26,7 @@ solar array can meet mission requirements.
 * breadboard with Arduino MKR ZERO
 * ArduCAM-M-2MP
 * resolution chart
+* metric ruler
 
 
 
@@ -37,114 +38,107 @@ solar array can meet mission requirements.
 
 Whenever you handle the Arduino or any microcontroller electronics, be sure that you have a grounding strap on, to prevent unintentional electro-static discharge (ESD). The strap should have contact with your skin and the banana plug end should plug into one of the grounding holes (indicated in red) on the front of your lab bench. There are two grounding plugs at each lab station.
 
-Connect your camera payload to FlatSAT. 
+- Connect your camera payload to FlatSAT
 
-- INA 219 current sensor
-- LCD display (this is test equipment and will not be used in space)
-
-Note: Arduino MKR ZERO uses 3.3 V logic and may be damaged if it sees input greater than 3.3 V. However, the LCD display requires 5 V power. Take care to keep the 3.3 V, 5 V, and 25 V power lines separate (all grounds should be connected, including Arduino's ground pin). 
-
-- Top rail: 3.3 V (diagram: orange wires)
-  - 3.3 V supply comes from VCC pin of Arduino
-- Bottom rail: 25 V (solar array---yellow wires)
-- 5V is supplied directly to the LCD from Arduino's 5V output pin (red wires)
+  **Note**: ArduCAM requires 5V supply
 
 
 
-![solar_bb](sources\camera_bb.svg)
+<img src="sources\camera_bb.svg" alt="solar_bb" style="zoom:200%;" />
 
-### INA 219 current sensor
+### ArduCAM
 
-The INA 219 current sensor communicates with Arduino using I2C. This is handled with the Adafruit_INA219 library. 
+ArduCAM-M-2MP communicates with Arduino using both I2C and SPI. The Arduino sketch handles these protocols with the `Wire` and `SPI` libraries. I2C: sensor configuration. SPI: camera commands and data stream (images). 
+
+Note the orientation of the connections in the diagram: the camera board should be vertical with the sensor looking over the LCD. 
 
 Connect power
 
-- VCC (3.3 V)
+- VCC (5 V)
 - ground (any ground is fine)
 
-Connect I2C comm lines
+Connect I2C comm lines--these are already in place from lab 1
 
 - SDA
 - SCL
 
-Connect sensing lines
+Connect SPI comm lines
 
-- solar+ -> Vin+ 
-- Vin-  -> potentiometer -> solar ground
+- SCK (clock)
+- CIPO (controller in/peripheral out)*
+- COPI (controller out/peripheral in)*
+- CS (chip select)
 
-### 16x2 LCD
+**\*Note**: some components and documentation use master/slave terminology (MISO/MOSI), and some use controller/peripheral (CIPO/COPI).
 
-Commodity LCDs such as this one have a 16 pin header. The LiquidCrystal Library controls communication using a standard LCD protocol. 
 
-Connect LCD power
 
-- pin 1: ground
-- pin 2: 5 V
+## Capture images
 
-Connect backlight power
+You will capture images of a resolution chart at multiple distances to determine the resolution of FlatSAT's camera payload. 
 
-- pin 16: ground
-- pin 15: 5 V
+### upload FlatSAT code
 
-Connect contrast circuit
-
-- 5 V and ground to 2 ends of potentiometer
-- middle of potentiometer to LCD pin 3
-
-Connect communication lines
-
-- RW: ground
-- RS, EN, D4, D5, D6, D7
-  - connect to Arduino according to the coded values in `lab 01 electrical power.ino` 
-  - (see LiquidCrystal initialization section)
-
-### solar array
-
-Record which solar panel you are using. 
-
-Connect the four cells of the array in series. You will complete the data collection steps, and then repeat them with the cells connected in parallel. 
-
-Connect the solar array's output to the breadboard's bottom power rail. 
-
-## upload FlatSAT code and test setup
-
-Open `lab 01 electrical power.ino` in the Arduino IDE. 
+Open `lab 02 camera payload.ino` in the Arduino IDE. 
 
 Connect Arduino to computer via USB. 
 
 Select the correct board (Arduino MKRZERO) and port. 
 
-Expose the solar panel to the halogen light. 
-
 Upload your code. 
 
-Open serial monitor (tools -> serial monitor).
+Open the serial monitor. 
 
-Slowly turn the potentiometer and watch the current and voltage change on the LCD. 
+### Configure ArduCAM Host GUI
 
-Disconnect power to Arduino before turning off the halogen light. 
+Create a folder on the desktop with your group name. 
 
-### prepare for outdoor testing
+Open `ArduCAM_Host_V2.exe` from the `ArduCAM_Host_V2.0_Windows` folder. 
 
-Connect 3-cell 18650 Li-ion holder to Arduino's Vin pin. 
+![ArduCAM_Host screenshot](sources\ArduCAM_Host screenshot.png)
 
-A 3-cell Lithium Ion battery provides 11.1 V, which is within the input range of Arduino MKR. Arduino will step that voltage down to provide 5 V on the 5 V pin and 3.3 V on the VCC pin. 
+Set the following options:
 
-Disconnect the computer, insert Li-ion cells, and verify that FlatSAT still works. 
+- Port -> COMX (same port your Arduino is connected to)
+  - click "Open" (purple button)
+  - This opens serial communication between Arduino and ArduCAM Host. You should get a message that confirms COM is open.
+- Pix -> 1200 x 1600 (the sensor's max/native resolution)
+- SaveImage -> select (check)
+- File -> (select your group's folder)
 
-## data collection scheme
+Hit the red "Capture" button to take an image. 
 
-FlatSAT saves current and voltage to `datalog.txt` every 1 second. On each powerup it writes "start of data" and then begins logging data. Subsequent powerups will again write "start of data" and add more data to the file. The powerup and "start of data" message can be used to separate test runs. It will be obvious which run is series vs parallel. 
+Review the image. If it is out of focus (completely blurry), turn the lens until the image is in focus. 
 
-## collect solar array performance data outside
+Take and save a photo of your team using ArduCAM. 
 
-Disconnect power so you're not saving excess data. 
+### Measure and prepare resolution chart
 
-Take FlatSAT and the luxmeter outside and find a test site in direct sunlight. 
+- Using the metric ruler at your lab station, measure the height of the resolution chart (triangle-to-triangle). Note the remark at the top: "VALUES IN 100X LINES PER PICTURE HEIGHT."
+- Verify the scale of the resolution markings. If the image height is 200 mm, at the 1 mark there should be 100 lines/200 mm, making each line 2 mm wide. 
+- Note this scale for later use after the lab. 
 
-Point the luxmeter toward the sun and record the sun's power in lux. You will have to adjust the range to its maximum setting. The measured value may jump around, try to take an average value. Record the average for later use calculating efficiency. 
+### Position the camera and resolution chart
 
-Point FlatSAT at the sun and power it on. *Very* slowly turn the potentiometer from one end to another. Record the current and voltage from the LCD display as a backup in case the stored data gets corrupted or lost. 
+You will use your camera to record images at the same distances you predicted in the prelab (except 500 km). 
 
-Disconnect power, rewire the solar array in parallel, and repeat these steps to collect the parallel I-V data. 
+- Position the camera and resolution chart so that they are perpendicular at the same height and 0.5 m apart. Ensure the chart is illuminated evenly and both objects are sufficiently supported to remain still during image capture. 
+- Set the resolution chart vertically
+- Click “Capture” to take the image. You may have to wait a few seconds for the data to transfer back to the computer. Once it has completed, you should get a message in the GUI and should be able to see a jpeg file in the location you specified. Double-click on the image, to ensure a satisfactory image. Re-take if necessary. 
+- Once you are satisfied, rename the image with the distance in the filename. 
+- Repeat this process for the distances calculated in your prelab (1, 2, and 5 m).
 
+## Lab station cleanup
+
+- Transfer all captured images to your group's storage location
+- Carefully disconnect the micro-USB to USB cable from your laptop and the Arduino microcontroller
+- Remove the ESD wrist straps and replace them in the bag at your lab station.
+- Replace all items at your lab station the way you found them. 
+- Close the GUI, close the Arduino IDE, and log out of the laptop.
+- Have your instructor check off your lab station before you depart.
+
+## Data Reduction (after the lab)
+
+To determine the camera's resolution for each distance, find the point where you can distinguish each individual line. Refer to the scale you recorded during your lab. If the smallest lines you can resolve are 2/3 mm wide, your camera's resolution is 0.667 mm. 
+
+Include the measured resolution for each distance (0.5 m, 1 m, 2 m, and 5 m) in the results section of your team’s final lab report.
