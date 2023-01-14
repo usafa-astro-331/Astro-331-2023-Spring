@@ -143,4 +143,4 @@ You will use your camera to record images at the same distances you predicted in
 
 To determine the camera's resolution for each distance, find the point where you can distinguish each individual line. Refer to the scale you recorded during your lab. If the smallest lines you can resolve are 2/3 mm wide, your camera's resolution is 0.667 mm. 
 
-Include the measured resolution for each distance (0.5 m, 1 m, 2 m, and 5 m) in the results section of your team’s final lab report.
+Include the measured resolution for each distance (0.5 m, 1 m, 2 m, and 5 m) in the results section of your team’s final lab report. Is your resolution different in the corners vs the center of the image? If so, discuss possible causes. 
