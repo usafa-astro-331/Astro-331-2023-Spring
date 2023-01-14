@@ -4,8 +4,7 @@ In this lab you will test FlatSAT's solar panel to determine if it will generate
 
 You will also record the incident luminosity with a luxmeter. 
 
-In your final lab report, you will compare your prelab performance predictions to the results you record in this lab. You will present your I-V plot and use it to identify your array's peak power. You will calculate array efficiency using the incident luminosity and the peak power generated. Finally, you will recommend any design changes necessary to ensure the
-solar array can meet mission requirements.
+In your final lab report, you will compare your prelab performance predictions to the results you record in this lab. You will present your I-V plot and use it to identify your array's peak power. You will calculate array efficiency using the incident luminosity and the peak power generated. Finally, you will recommend any design changes necessary to ensure the solar array can meet mission requirements.
 
 ## documentation
 
