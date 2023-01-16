@@ -53,21 +53,11 @@ Whenever you handle the Arduino or any microcontroller electronics, be sure that
 
 
 - connect power and ground lines
-
   **Note**: Arduino MKR ZERO uses 3.3 V logic and may be damaged if it sees input greater than 3.3 V on any pin (except the 5V in on "5V"). However, the LCD display requires 5 V power. Take care to keep the 3.3 V, 5 V, and 25 V power lines separate (all grounds should be connected, including Arduino's ground pin). 
-
-
     - Top rail: 3.3 V (diagram: orange wires)
-    
       - 3.3 V supply comes from VCC pin of Arduino
-
-
-
     - Bottom rail: 25 V (solar array---yellow wires)
-
-
     - 5V is supplied directly to the LCD from Arduino's 5V output pin (red wires)
-
 - **Have your instructor check your connections** 
 
 
