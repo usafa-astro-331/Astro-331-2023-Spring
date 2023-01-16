@@ -24,6 +24,8 @@ solar array can meet mission requirements.
 
 * ESD-safe grounding straps
 * FlatSAT
+  * INA219 current sensor
+
 * ArduCAM-M-2MP
 * resolution chart
 * metric ruler
