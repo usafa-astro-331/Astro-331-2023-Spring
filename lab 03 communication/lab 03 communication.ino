@@ -4,8 +4,8 @@
 #include "./src/BreezyArduCAM_single_jpeg.h"       // Arducam 'driver'
 #include <SPI.h>                 // SPI communications
 //#include "./src/WiFi101.h"             // Library for the built-in WiFi card on the MKR 1000
-#include <WiFiUdp.h>             // Load UTP protocol for WiFi
-#include "./src/RTCZero.h"             // Load the Real Time Clock driver
+ #include "WiFiUdp.h"             // Load UTP protocol for WiFi
+#include <RTCZero.h>            // Load the Real Time Clock driver
 //#include "wifi_info.h"           // WiFi SSID and password
 
 //Change the following to the name of the satellite and the PAN ID (4 digits)
