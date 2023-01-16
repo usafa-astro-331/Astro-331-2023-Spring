@@ -51,11 +51,10 @@ Go to the `computer_environment` folder.
   
   
     - **notepad++**: a useful text editor
-  
-  
+    - **Thonny**: IDE used for communication lab
   
   - **Arduino IDE**
-
+  
 - Verify and run `update_arduino.bat` which updates the Arduino IDE/environment using the `arduino-cli` tool
 
   - updates Arduino environment
