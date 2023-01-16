@@ -36,12 +36,15 @@ In your final lab report, you will compare your prelab performance predictions t
   * INA219 current sensor breakout board
   * potentiometer
   * solar panel
+  * battery holder
+  * 3x charged 18650 Lithium Ion cells
+  * 5 V BEC/UBEC (universal battery eliminator circuit) switching regulator
   * wires
-
+  * microSD card 
+  * USB microSD card reader
   
-
   ![](sources/image1.jpeg)
-
+  
   ![](sources/image2.jpeg)
 
 ## setup
@@ -49,29 +52,43 @@ In your final lab report, you will compare your prelab performance predictions t
 Whenever you handle the Arduino or any microcontroller electronics, be sure that you have a grounding strap on, to prevent unintentional electro-static discharge (ESD). The strap should have contact with your skin and the banana plug end should plug into one of the grounding holes (indicated in red) on the front of your lab bench. There are two grounding plugs at each lab station.
 
 
-
-
 - connect power and ground lines
 
-  **Note**: Arduino MKR ZERO uses 3.3 V logic and may be damaged if it sees input greater than 3.3 V. However, the LCD display requires 5 V power. Take care to keep the 3.3 V, 5 V, and 25 V power lines separate (all grounds should be connected, including Arduino's ground pin). 
+  **Note**: Arduino MKR ZERO uses 3.3 V logic and may be damaged if it sees input greater than 3.3 V on any pin (except the 5V in on "5V"). However, the LCD display requires 5 V power. Take care to keep the 3.3 V, 5 V, and 25 V power lines separate (all grounds should be connected, including Arduino's ground pin). 
 
 
-  - Top rail: 3.3 V (diagram: orange wires)
+    - Top rail: 3.3 V (diagram: orange wires)
+    
+      - 3.3 V supply comes from VCC pin of Arduino
 
-    - 3.3 V supply comes from VCC pin of Arduino
 
-  - Bottom rail: 25 V (solar array---yellow wires)
-  - 5V is supplied directly to the LCD from Arduino's 5V output pin (red wires)
+
+    - Bottom rail: 25 V (solar array---yellow wires)
+
+
+    - 5V is supplied directly to the LCD from Arduino's 5V output pin (red wires)
+
+- **Have your instructor check your connections** 
 
 
 ![solar_bb](sources/solar_bb.svg)
 
+- prepare microSD card
 - Install current sensing and readout components on FlatSAT. 
-
-  - INA 219 current sensor
+- INA 219 current sensor
 
 
   - LCD display (this is test equipment and will not be used in space)
+
+### prepare microSD card
+
+The Arduino MKR Zero has a microSD card slot. You will use this card to store data in various labs. If this is your first lab with an SD card, prepare the card. 
+
+- write your group name on a microSD card
+- insert the card in the USB reader and connect to your computer
+- Format the card
+  - Window Explorer -> Right click -> format -> Fat 32 -> Ok
+- Insert the card into your Arduino MKR Zero
 
 ### INA 219 current sensor
 
@@ -141,15 +158,37 @@ Open serial monitor (tools -> serial monitor).
 
 Slowly turn the potentiometer and watch the current and voltage change on the LCD. 
 
-Disconnect power to Arduino before turning off the halogen light. 
+Disconnect the Arduino and turn off the halogen light. 
 
 ### prepare for outdoor testing
 
-Connect 3-cell 18650 Li-ion holder to Arduino's Vin pin. 
+For outdoor testing, FlatSAT will be powered by a 3-cell 18650 Lithium ion battery with the cells connected in series, providing a nominal 11.1 V. The input pin of an Arduino MKR Zero (or MKR 1000) can tolerate 5-5.5 V. You will use a switching regulator called a BEC to step the supply voltage down from 12 V to 5 V. 
 
-A 3-cell Lithium Ion battery provides 11.1 V, which is within the input range of Arduino MKR. Arduino will step that voltage down to provide 5 V on the 5 V pin and 3.3 V on the VCC pin. 
+Arduino will further step the 5 V down to 3.3 V for its internal logic. 3.3 V out is also available on the Vcc pin to power peripherals. 
 
-Disconnect the computer, insert Li-ion cells, and verify that FlatSAT still works. 
+Arduino pins: 
+
+- Vin: 5 V power input
+- 5V: 5 V power output (for some peripherals)
+- Vcc: 3.3 V power output
+- Gnd
+
+**Note**: applying 12 V directly to Vin will break your Arduino. 
+
+- Velcro the battery holder to back of breadboard. 
+- Connect 3-cell 18650 Li-ion holder to posts on breadboard holder. 
+
+- Using banana plugs, connect the battery holder wires to the posts on your breadboard
+  - Red: positive
+  - Black: negative
+- Connect the BEC 
+  - 12 V side connects to breadboard posts
+  - 5 V side connects to FlatSAT
+    - Red: Vin
+    - Black: ground rail
+- **Have your instructor check your connections**
+- Insert Li-ion cells and verify that FlatSAT works
+- remove cells
 
 ## data collection scheme
 
@@ -167,3 +206,42 @@ Point FlatSAT at the sun and power it on. *Very* slowly turn the potentiometer f
 
 Disconnect power, rewire the solar array in parallel, and repeat these steps to collect the parallel I-V data. 
 
+## data reduction (after the lab)
+
+- transfer `datalog.txt` to your own computer for later analysis
+- create a plot showing both panel I-V curves: series and parallel 
+
+  - remember to include your earlier measurements of open-circuit voltage and short-circuit current
+- Compare your experimental results to the predicted I-V curve in your prelab. Discuss and explain any differences. Discuss how the serial and parallel I-V plots differ and whether those results match your expectations. 
+- Determine the peak power point for each I-V curve. Label it on your plot and include the results in a table in your final lab report. 
+
+**Peak power point in sunlight for each I-V curve**
+
+|          | voltage | current | power |
+| -------- | ------- | ------- | ----- |
+| series   |         |         |       |
+| parallel |         |         |       |
+
+- calculate efficiency for each connection scheme (series and parallel). 
+
+  - Convert the recorded illuminance (lumen) from the luxmeter to irradiance. This conversion depends on the spectral distribution of your light source (sunlight or halogen).
+
+  $$
+  1\  \mathrm{lux} = \frac{1\ \mathrm{lumen}_{\mathrm{sunlight}}}    {\mathrm{m^2}} 0.0082\ \mathrm{W m^{-1}}
+  $$
+
+  $$
+  1\  \mathrm{lux} = \frac{1\ \mathrm{lumen}_{\mathrm{halogen}}}{\mathrm{m^2}} 0.05\ \mathrm{W m^{-1}}
+  $$
+
+  - Calculate efficiency using the irradiance from your light source (sunlight) and the peak power produced by your solar panel (do this twice--series and parallel)
+
+  $$
+  P_{\mathrm{panel}} = \frac{P_{\mathrm{peak}}}{A_{\mathrm{panel}}}
+  $$
+
+  $$
+  \eta = \frac{P_{\mathrm{panel}} }{\mathrm{irradiance}}
+  $$
+
+  - Compare measured efficiency to the efficiency you calculated in your prelab. Comment on your results. 
