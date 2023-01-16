@@ -36,7 +36,7 @@ We will use the Arduino integrated development environment (IDE) to communicate 
   
   - tortoisegit: windows explorer integration for git
 
-- marktext: markdown viewer/editor (for lab instructions)
+- typedown: markdown viewer/editor (for lab instructions)
 
 - arduino-cli: manage arduino libraries
 
