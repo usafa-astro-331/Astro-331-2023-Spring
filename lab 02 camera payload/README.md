@@ -23,10 +23,11 @@ solar array can meet mission requirements.
 ## hardware
 
 * ESD-safe grounding straps
-* breadboard with Arduino MKR ZERO
+* FlatSAT
 * ArduCAM-M-2MP
 * resolution chart
 * metric ruler
+* cables and wires
 
 
 
@@ -37,6 +38,8 @@ solar array can meet mission requirements.
 ## setup
 
 Whenever you handle the Arduino or any microcontroller electronics, be sure that you have a grounding strap on, to prevent unintentional electro-static discharge (ESD). The strap should have contact with your skin and the banana plug end should plug into one of the grounding holes (indicated in red) on the front of your lab bench. There are two grounding plugs at each lab station.
+
+In this lab FlatSAT will draw power from its USB connection to the computer. 
 
 - Connect your camera payload to FlatSAT
 
@@ -69,7 +72,7 @@ Connect SPI comm lines
 - COPI (controller out/peripheral in)*
 - CS (chip select)
 
-**\*Note**: some components and documentation use master/slave terminology (MISO/MOSI), and some use controller/peripheral (CIPO/COPI).
+**\*Note**: some components and documentation use master/slave terminology (MISO/MOSI), and some use controller/peripheral (CIPO/COPI). MISO = CIPO, MOSI = COPI. 
 
 
 

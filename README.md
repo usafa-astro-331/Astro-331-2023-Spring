@@ -28,6 +28,12 @@ A prelab report will be due at the beginning of class for each lab day, as noted
 
 In addition to these numbered labs, we will have a few introductory lab exercises. Some of these exercises will only take part of our class time. 
 
+### Lab conduct
+
+In general you will follow the explicit directions for each lab. Please notify your instructor if any instructions are difficult to follow or accomplish. 
+
+During all labs you should take photographs of your completed FlatSAT, your team in action, and test setup as necessary. You should use some of these photographs in your final lab report--definitely include a photograph of your completed FlatSAT after all labs are completed. 
+
 ## Computer environment
 
 We will use the Arduino integrated development environment (IDE) to communicate with FlatSAT. We will also use several otehr tools to organize code and other course materials. 
