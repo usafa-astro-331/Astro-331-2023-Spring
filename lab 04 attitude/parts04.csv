@@ -1,0 +1,7 @@
+Lab #,#/flatsat,Part Number,Description, Cost/ea ,V(in),Comments,Link,need,have,buy
+4 attitude,1,ICM-20948,9DoF IMU,18.5,5V,gyroscope/accelerometer/magnetometer,https://www.sparkfun.com/products/15335,12,5,
+4 attitude,1,4758,DC brushed motor w/ encoder,47.79,12V,Reaction wheel motor w/ encoder to read speed,https://www.pololu.com/product/4758,5,5,
+4 attitude,1,2997,DC motor controller,10.99,5V,DC motor controller to command reaction wheel,https://www.pololu.com/product/2997,5,5,
+4 attitude,1,wf-p25/20,Electro Magnet,9.99,5V,Uxcell 5V 50N electromagnet -- torque rod,https://www.amazon.com/uxcell-Electric-Lifting-Electromagnet-Solenoid/dp/B01N5OPUEC/ref=pd_lpo_2?pd_rd_i=B01N5OPUEC&psc=1,12,0,
+4 attitude,4,          475-3521-1,Mini Photocell,1.6,,Photodiode to detect light on FlatSat (would need to 3d print mounts in 4 directions),https://www.sparkfun.com/products/9088,48,0,
+4 attitude,0.125,360-H02 extruded,"4"" diameter brass rod",600.05,,Brass to machine reaction wheels out of,https://www.onlinemetals.com/en/buy/brass/4-brass-round-bar-360-h02-extruded/pid/1292,1,1,
