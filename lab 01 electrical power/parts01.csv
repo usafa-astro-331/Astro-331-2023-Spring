@@ -1,0 +1,13 @@
+Lab #,#/flatsat,Part Number,Description, Cost/ea ,V(in),Comments,Link,need,have,buy
+1 solar,1,MKR Zero,Microcontroller,30.3,5V,Main C&DH for FlatSat -- buy w/ headers!,https://store-usa.arduino.cc/products/arduino-mkr-zero-i2s-bus-sd-for-sound-music-digital-audio-data?selectedStore=us,10,10,
+1 solar,0.1,1119,button,2.5,,Tactile Switch Buttons  x 10 pack,https://www.adafruit.com/product/1119,10,10,
+1 solar,0.2,222-413/K194-4045,Wago splice,21.83,,(box of 50) terminal butt splice,https://www.digikey.com/en/products/detail/wago-corporation/222-413-K194-4045/13549312,1,1,
+1 solar,0.5,MC6C,li-ion charger,17.99,,6 bay li-ion battery charger,https://www.18650batterystore.com/collections/18650-battery-charger/products/xtar-mc6c,5,5,
+1 solar,1,181,lcd,9.95,,Standard LCD 16x2 + extras,https://www.adafruit.com/product/181,10,10,
+1 solar,1,,potentiometer,,,,,,,
+1 solar,1,112990066,microsd card,7,,32GB MicroSD card,https://www.digikey.com/en/products/detail/seeed-technology-co-ltd/112990066/10290294,12,12,
+1 solar,1,904,current sensor,9.95,,INA219 High Side DC Current Sensor Breakout,https://www.adafruit.com/product/904,12,12,
+1 solar,1,106990288,3S battery holder,0.6,,3-cell 18650 battery holder,https://www.digikey.com/en/products/detail/seeed-technology-co-ltd/106990288/10451902,12,12,
+1 solar,1,LS118-P,debounce IC,3.32,,LogiSwitch 3-chan debounce chip with handshake,https://www.digikey.com/en/products/detail/logiswitch/LS118-P/13540813,12,12,
+1 solar,1,1385,5V BEC power supply,7.98,,UBEC DC/DC Step-Down (Buck) Converter - 5V @ 3A output,https://www.adafruit.com/product/1385,12,12,
+1 solar,3,,18650 battery,4.5,,epoch 18650 2.6Ah protected battery,https://www.18650batterystore.com/collections/18650-batteries/products/epoch-18650-2600mah-8a-protected-button-top-battery,30,30,
