@@ -18,7 +18,7 @@ Illuminate an indicator if:
 - solderless breadboard
 - LED
 - resistor
-- integrated circuits (chips)
+- ICs (integrated circuits, aka chips)
   - OR
   - AND (2x)
   - NOT (i.e. inverter)
@@ -27,7 +27,7 @@ Illuminate an indicator if:
 
 ## Documentation
 
-Refer the the three datasheets—one for each IC type. 
+Refer to the provided datasheets for each IC type. 
 
 
 
@@ -114,7 +114,7 @@ When you have completed your logic wiring, connect the breadboard to a 5V power 
 
 ## Post-lab procedures
 
-Not any discrepancies in your lab notebook. If there were none, note that fact. 
+Note any discrepancies in your lab notebook. If there were none, note that fact. 
 
 
 
