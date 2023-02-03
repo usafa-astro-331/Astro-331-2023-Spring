@@ -118,10 +118,10 @@ To map a 30 V signal to a 3.3 V sensor, you will use a voltage divider.
 >-Wikipedia
 
 ![Resistive_divider2](sources/Resistive_divider2.svg)
-$$
-V_{out} = \frac{R_2}{R_1+R_2}V_{in}
-$$
-Approximately how much do you need to reduce your input voltage? What relative values of R~1~ and R~2~ will give you that ratio? Work this out in your lab notebook. 
+
+$V_{out} = \frac{R_2}{R_1+R_2}V_{in}$
+
+Approximately how much do you need to reduce your input voltage? What relative values of $R_1$ and $R_2$ will give you that ratio? Work this out in your lab notebook. 
 
 Now you have to pick actual resistors and make a voltage divider. 
 
