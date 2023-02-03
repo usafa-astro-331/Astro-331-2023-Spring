@@ -2,8 +2,6 @@
 
 
 
-
-
 ### computer login
 
 username: .\Astrolab
@@ -42,6 +40,3 @@ update Arduino libraries (if necessary—i.e. if `install_libraries.bat` exists 
 
 - read contents of that lab's `install_libraries.bat`
 - execute (double-click) `install_libraries.bat`
-
-
-
