@@ -17,44 +17,58 @@
     - A power supply with current limiting/constant current would be handy to calibrate the device without using resistors
 */
 
-const int analogInPin = A0;
+// const int analogInPin = A1;
+const int volt_in = A1;
+// set ADC resolution to 12-bit (default is 10-bit)
+
+// 
 
 // Number of samples to average the reading over
 // Change this to make the reading smoother... but beware of buffer overflows!
 const int avgSamples = 10;
 
-int sensorValue = 0;
+// int sensorValue = 0;
+int volt_counts = 0;
 
-float sensitivity = 100.0 / 500.0; //100mA per 500mV = 0.2
-float Vref = 2500; // Output voltage with no current: ~ 2500mV or 2.5V
+// float sensitivity = 100.0 / 500.0; //100mA per 500mV = 0.2
+// float Vref = 2500; // Output voltage with no current: ~ 2500mV or 2.5V
 
 void setup() {
+
+analogReadResolution(12); 
+
   // initialize serial communications at 9600 bps:
   Serial.begin(9600);
 }
 
 void loop() {
   // read the analog in value:
-  for (int i = 0; i < avgSamples; i++)
-  {
-    sensorValue += analogRead(analogInPin);
+  for (int i = 0; i < avgSamples; i++) {
+    volt_counts += analogRead(volt_in);
+    // sensorValue += analogRead(analogInPin);
 
     // wait 2 milliseconds before the next loop
     // for the analog-to-digital converter to settle
     // after the last reading:
     delay(2);
-
   }
 
-  sensorValue = sensorValue / avgSamples;
+  volt_counts = volt_counts / avgSamples;
 
-  // The on-board ADC is 10-bits -> 2^10 = 1024 -> 5V / 1024 ~= 4.88mV
+  // The on-board ADC is 12-bits -> 2^12 = 4096 -> 3.3V / 4096 ~= XX mV
   // The voltage is in millivolts
-  float voltage = 4.88 * sensorValue;
+  float voltage = volt_counts * 1;
+
+  Serial.print(voltage);
+
+
+
+
+
 
   // This will calculate the actual current (in mA)
   // Using the Vref and sensitivity settings you configure
-  float current = (voltage - Vref) * sensitivity;
+  // float current = (voltage - Vref) * sensitivity;
 
   // This is the raw sensor value, not very useful without some calculations
   //Serial.print(sensorValue);
@@ -70,7 +84,7 @@ void loop() {
    * voltage. This allows the sensor to output positive and negative currents!
    *************************************************************************************/
 
-  Serial.print(voltage);
+  // Serial.print(voltage);
   //Serial.print("mV");
 
   /*************************************************************************************
@@ -85,7 +99,7 @@ void loop() {
    * The sensitivity will be (known current)/(Vreading - Vref).
    *************************************************************************************/
 
-    /*************************************************************************************
+  /*************************************************************************************
    * Step 3.)
    * Comment out the code used for the last two parts and uncomment the following code.
    * When you have performed the calibration steps above, make sure to change the 
@@ -103,5 +117,5 @@ void loop() {
   Serial.print("\n");
 
   // Reset the sensor value for the next reading
-  sensorValue = 0;
+  volt_counts = 0;
 }
