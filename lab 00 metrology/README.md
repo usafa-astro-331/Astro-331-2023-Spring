@@ -199,6 +199,16 @@ Upload this modified code and ensure that the serial plotter matches the output 
 
 Congratulations! You can measure voltage!
 
+## To do
+
+move serial.print to the end of the lab for easy finding and modification
+
+write current section
+
+update fritzing file
+
+
+
 ## Current
 
 
