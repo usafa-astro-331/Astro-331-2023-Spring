@@ -11,6 +11,8 @@ Previously, you determined the current and voltage limits of a 4-cell solar arra
 
 To measure FlatSAT's current and voltage, you must pick appropriate sensors. 
 
+
+
 ## Overview
 
 - voltage measurement
@@ -27,8 +29,6 @@ To measure FlatSAT's current and voltage, you must pick appropriate sensors.
 
   
 
-
-
 ## Hardware 
 
 - Arduino MKR 
@@ -38,15 +38,27 @@ To measure FlatSAT's current and voltage, you must pick appropriate sensors.
 - 
 - current sensing ICs
 
+
+
 ## Software 
 
 - Arduino IDE
 - `lab 00 metrology.ino`
 
+
+
 ## Documentation
 
 - Arduino MKR datasheet
 - Sparkfun Hall sensor datasheet
+
+
+
+## Preliminary
+
+- git pull
+- tortoisegit -> switch/checkout -> main
+- inspect and run `lab 00 metrology/install_libraries.bat`
 
 
 
@@ -132,9 +144,9 @@ Keep in mind:
 - your resistors are 1/4 W resistors
 - an ideal voltmeter has infinite resistance
 
-Now, select resistors for R1 and R2. Record these values in your lab notebook. 
+Select resistors for R1 and R2. Ensure your resistors won't smoke or catch fire. Record these values in your lab notebook. 
 
-At this time, explain your choice to your instructor. 
+**At this time, explain your choice to your instructor.** 
 
 
 
@@ -198,25 +210,29 @@ The serial plotter will show a moving graph. Adjust the power supply **downward 
 
 This is because of the 12-bit ADC resolution. You must add a scale factor to output the correct voltage. 
 
-Arduino's default ADC resolution is 10-bit. `lab 00 metrology.ino` uses the command `analogReadResolution(12);` to adjust the ADC resolution. 
+Arduino's default ADC resolution is 10-bit. `lab 00 metrology.ino` uses the command `analogReadResolution(12);` to instead select a higher 12-bit resolution. 
 
 With an input range of 0–3.3 V and 12-bit/4096 count, Arduino's sensitivity is 0.8 mV/count (3.3V/4096 count). 
 
-To properly display Arduino's **measured voltage**, you must **multiply the ADC reading `volt_counts` by 0.8.** 
+To properly display Arduino's **measured voltage in mV**, you must **multiply the ADC reading `volt_counts` by 0.8.** 
 
 However, you instead want to display the voltage of your solar array/solar array simulator. You must **multiply the measured voltage** by the ratio of your voltage divider. 
 
-Calculate this factor and change the following code line to include the proper scale factor (instead of 0.8). 
+$voltage = volt\_ counts * \left(\frac{XX\ mV}{count} * \frac{R_1}{R_1+R_2}\right)$ 
+
+Calculate this factor and change the following code line to include the proper scale factor (instead of `sensitivity`, which was set to 1 earlier in the code). 
 
 ```
- float voltage = volt_counts * 0.8;
+ float voltage = volt_counts * sensitivity;
 ```
 
 Upload this modified code and ensure that the serial plotter matches the output of your power supply. If not, adjust as necessary. 
 
 
 
-Congratulations! You can measure voltage!
+Congratulations! You can measure voltage! 
+
+**Remove power from your Arduino and turn off the output of your benchtop power supply (on/off button should not be illuminated).** 
 
 ## To do
 
@@ -238,31 +254,92 @@ update fritzing file
 
 ## Current
 
+There are two general ways to measure current. 
+
+- measuring the induced magnetic field around a current-carrying conductor
+- measuring a voltage drop across a known resistance
+
+You will attempt to use the first method with a Hall effect sensor. 
+
+The solar array current you are trying to measure is very small (as low as 40 mA in parallel), so you will need a very sensitive current sensor. You will use the low current version of Sparkfun's ACS723 breakout board. Read the highlighted datasheet now. Is this a suitable sensor?
+
+**Note: You will use Vcc = 3.3 V to avoid damaging the Arduino MKR board.**
+
+
+
+### Connect current sensor
+
+Install and connect the current sensor. Since the sensor is so long, you will have to install the wires underneath the sensor, before you place the sensor on the breadboard. 
+
+Connect Vcc and ground to Arduino's Vcc and ground, using the breadboard's power rails. 
+
+Connect Vout to Arduino's pin A3. 
+
+Set your benchtop power supply's limits to 3.3 V and 150 mA. 
+
+Connect IP+ and IP- to your benchtop power supply.
+
+
+
+### Calibration and Example Code
+
+The following instructions are modified from the example provided at https://learn.sparkfun.com/tutorials/current-sensor-breakout-acs723-hookup-guide. 
+
+#### Setting Vref 
+
+Connect Arduino to the computer. 
+
+`lab 00 metrology.ino` reads a voltage from pin A3 and prints it to the serial terminal (as the 2nd value). 
+
+To set up Vref, the sensor should have no current flowing through it. Leave the benchtop power supply off.  You can also (optionally) read the output voltage using a [multimeter](https://www.sparkfun.com/products/12966). See the Fritzing diagram below for more information:
+
+![img](sources/vref_setup.jpg)
+
+In the serial plotter unselect "value 1" and select "value 2."  Value 2 shows the voltage reading from the Arduino in real time. The units are in millivolts.
+
+With a #1 Phillips screwdriver, turn the Vref potentiometer clockwise to increase Vref and counter-clockwise to decrease. Make small adjustments, as the adjustment is very sensitive!
+
+**Note:** Using metal/magnetized screwdrivers may cause the sensor to give false readings. This is because the Hall effect sensor inside is picking up the magnetic fields from the screwdriver. If you experience this, simply make a small adjustment and then move the screwdriver away to see the result. 
+
+In the Serial Plotter, you should see something like this:
+
+![img](sources/vref_adjust.gif)
+
+Since you are measuring a positive DC current, Vref should (ideally) be zero. However, the Vref potentiometer can go past zero, and when it does the sensor produces no output. To avoid that, adjust Vref to a small value, approximately 10 mV. 
+
+#### Setting Gain/Sensitivity
+
+To set the gain, you need to pass a known current through the sensor and tune the gain pot to achieve the sensitivity your application needs. Since you are measuring a small current, you will first try with gain/sensitivity set to maximum. 
+
+The risks of maximum gain are noise (spiky data) and clipping. Clipping occurs when the measured current exceeds the limits of your system. For example, in this circuit, if 100 mA registers as 3.3 V, the current sensor will be unable to distinguish between 100 mA and 150 mA. 
+
+Turn on your benchtop power supply (3.3 V, 150 mA). The serial plotter should show a new output voltage. 
+
+With a known constant current flowing through the sensor, the gain can be adjusted. Adjust the gain to its maximum. The serial plotter should show a higher output voltage. 
+
+If you have problems, you may have to reverse current flow (swap the leads at the power supply) and/or adjust Vref to its maximum. 
+
+Disconnect and reconnect the IP+ wire to find output voltage at (near) the expected limits of your solar array's power input. Can you usefully detect this current? 
+
+Using Vdelta, calculate sensitivity (mA/mV) and adjust the following line of code. 
+
+```
+float current = (curr_counts*0.8 - Vref) * sensitivity;
+```
+
+![img](sources/vdelta.png)
+
+
+
+Attempt to measure 40 mA and 10 mA. Record your observations. Is this a suitable sensor? 
 
 
 
 
-In 12-bit mode 
-
-measure 0–25 V
-
-still need good resolution for 0–6 V
 
 
 
-Find voltage input range for Arduino MKR (datasheet).
 
-Find Arduino MKR ADC (analog-to-digital converter) resolution
-
-
-
-Need to match signal range (0–6V/0–25V) to sensor range. 25V is the worst case, so build a sensor that can handle input up to 25 V. 
-
-Voltage divider
-
-connect to arduino analog input pin
-
-modify code, run code, open serial monitor, adjust power supply voltage and watch input change
 
 
 
