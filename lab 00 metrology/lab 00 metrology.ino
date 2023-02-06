@@ -46,7 +46,7 @@ void setup(void) {
 
   long present_time = 0; 
   long write_due = 0;
-  long write_interval = 1000;
+  long write_interval = 100;
 
   float shuntvoltage = 0;
   float busvoltage = 0;
@@ -57,7 +57,7 @@ void setup(void) {
   float voltage=0 ;
   float current=0 ; 
 
-  float samples = 50; // num of samples for an exponential weighted moving average
+  float samples = 1; // num of samples for an exponential weighted moving average
 
 void loop(void) 
 {
