@@ -150,6 +150,8 @@ Select resistors for R1 and R2. Ensure your resistors won't smoke or catch fire.
 
 
 
+![voltage divider](../sources/fritzing/metrology_a.svg)
+
 **Note:** Do not connect your Arduino to power or to a computer at this time. 
 
 Place R1 and R2 on the breadboard as shown. R1 is the larger resistor. 
@@ -246,11 +248,13 @@ Upload this modified code and ensure that the serial plotter matches the output 
 
 Congratulations! You can measure voltage! 
 
-**Remove power from your Arduino and turn off the output of your benchtop power supply (on/off button should not be illuminated).** 
 
-## To do!!
 
-update fritzing file
+### Intermediate cleanup
+
+- turn off the benchtop power supply (on/off button not illuminated)
+- disconnect Arduino
+- remove the ACS723 current sensor and associated wires
 
 
 
@@ -281,7 +285,7 @@ Set your benchtop power supply's limits to 3.3 V and 150 mA.
 
 Connect IP+ and IP- to your benchtop power supply.
 
-
+![voltage divider](../sources/fritzing/metrology_b.svg)
 
 ### Calibration and Example Code
 
@@ -410,6 +414,8 @@ Connect sensing lines
 
 - power supply + -> Vin+ 
 - Vin-  -> 330 Ω resistor -> ground
+
+![voltage divider](../sources/fritzing/metrology_c.svg)
 
 #### Arduino program flow
 
