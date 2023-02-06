@@ -56,7 +56,7 @@ To measure FlatSAT's current and voltage, you must pick appropriate sensors.
 
 ## Preliminary
 
-- git pull
+- git sync -> pull
 - tortoisegit -> switch/checkout -> main
 - inspect and run `lab 00 metrology/install_libraries.bat`
 
@@ -234,7 +234,7 @@ Congratulations! You can measure voltage!
 
 **Remove power from your Arduino and turn off the output of your benchtop power supply (on/off button should not be illuminated).** 
 
-## To do
+## To do!!
 
 move serial.print to the end of the lab for easy finding and modification
 
@@ -252,7 +252,7 @@ update fritzing file
 
 
 
-## Current
+## Current—Hall effect sensor
 
 There are two general ways to measure current. 
 
@@ -267,7 +267,7 @@ The solar array current you are trying to measure is very small (as low as 40 mA
 
 
 
-### Connect current sensor
+### Connect Hall effect current sensor
 
 Install and connect the current sensor. Since the sensor is so long, you will have to install the wires underneath the sensor, before you place the sensor on the breadboard. 
 
@@ -332,6 +332,8 @@ float current = (curr_counts*0.8 - Vref) * sensitivity;
 
 
 Attempt to measure 40 mA and 10 mA. Record your observations. Is this a suitable sensor? 
+
+## Current—Ohm's Law
 
 
 

@@ -1,5 +1,5 @@
 /* 
-04_solar_lab
+lab 01 electrical power
 USAF Astro 331
 2023 Spring
 Lt Col Jordan Firth
