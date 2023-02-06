@@ -161,19 +161,38 @@ Record these measurements in your lab notebook.
 
 Now you will measure voltage with Arduino. 
 
+#### Arduino program flow
+
+Every Arduino programs look like this:
+
+- // comments begin with `//`
+- /* comment blocks (multiline comments) are surrounded by `/* … */` */
+
+- Commands in global namespace 
+  - For example, defining global constants
+  - You cannot call functions here–that's why `analogReadResolution(XX)` is not included here
+- void setup() {…}
+  - The `setup` function takes no arguments (the empty parentheses) and returns no outputs (`void`)
+  - This function runs once
+- void loop(){…}
+  - The `loop` function runs as long as the Arduino has power
+  - It can include calls to functions defined elsewhere, usually after the final `}` of loop() 
+
+
+
 - Energize the power supply. **With a voltmeter, ensure that Arduino pin A1 only sees 3.3 V from ground even when the power supply provides 30 V.** 
 
 - Open `lab 00 metrology.ino` 
 
 - Connect Arduino to your computer. 
 
-- Open the serial plotter (tools -> serial plotter). 
-
 - Select the correct board (tools -> board -> SAMD -> Arduino MKR 1000)
 
 - Select the correct port (COMXX—try one until it works). 
 
 - Click `upload` (right arrow near the top of the window). 
+
+Open the Arduino IDE's serial plotter (tools -> serial plotter). Select "value 1" and unselect "value 2." 
 
 The serial plotter will show a moving graph. Adjust the power supply **downward only** and watch the plotted line move. As the power supply moves from 30 V–0 V, Arduino sees from 3.3 V–0V. What range of values does the serial plotter display? 
 
@@ -185,12 +204,12 @@ With an input range of 0–3.3 V and 12-bit/4096 count, Arduino's sensitivity is
 
 To properly display Arduino's **measured voltage**, you must **multiply the ADC reading `volt_counts` by 0.8.** 
 
-However, you instead want to display the voltage of your power rail (which represents the array power). You must **multiply the measured voltage** by the ratio of your voltage divider. 
+However, you instead want to display the voltage of your solar array/solar array simulator. You must **multiply the measured voltage** by the ratio of your voltage divider. 
 
-Calculate this factor and change the following code line to include the proper scale factor (instead of 1). 
+Calculate this factor and change the following code line to include the proper scale factor (instead of 0.8). 
 
 ```
- float voltage = volt_counts * 1;
+ float voltage = volt_counts * 0.8;
 ```
 
 Upload this modified code and ensure that the serial plotter matches the output of your power supply. If not, adjust as necessary. 
@@ -203,9 +222,17 @@ Congratulations! You can measure voltage!
 
 move serial.print to the end of the lab for easy finding and modification
 
+- first: serial will print voltage count
+  - then cadets modify to print voltage
+- then: serial will print current count
+  - then cadets will set aref/zero point
+  - then cadets will adjust sensitivity
+
 write current section
 
 update fritzing file
+
+
 
 
 
@@ -241,7 +268,7 @@ modify code, run code, open serial monitor, adjust power supply voltage and watc
 
 ## Current
 
-measure 0–150 mAk
+measure 0–150 mA
 
 still need good resolution at 0–40 mA
 
@@ -271,3 +298,48 @@ calibrate/adjust gain and sensitivity
 
 
 
+  // This will calculate the actual current (in mA)
+  // Using the Vref and sensitivity settings you configure
+  // 
+
+  // This is the raw sensor value, not very useful without some calculations
+  //Serial.print(sensorValue);
+
+  /*************************************************************************************
+   * Step 1.)
+   * Uncomment and run the following code to set up the baseline voltage 
+   * (the voltage with 0 current flowing through the device).
+   * Make sure no current is flowing through the IP+ and IP- terminals during this part!
+   * 
+   * The output units are in millivolts. Use the Arduino IDE's Tools->Serial Plotter
+   * To see a plot of the output. Adjust the Vref potentiometer to set the reference
+   * voltage. This allows the sensor to output positive and negative currents!
+      *************************************************************************************/
+
+  // Serial.print(voltage);
+  //Serial.print("mV");
+
+  /*************************************************************************************
+   * Step 2.)
+   * Keep running the same code as above to set up the sensitivity
+   * (how many millivolts are output per Amp of current.
+   * 
+   * This time, use a known load current (measure this with a multimeter)
+   * to give a constant output voltage. Adjust the sensitivity by turning the
+   * gain potentiometer.
+   * 
+   * The sensitivity will be (known current)/(Vreading - Vref).
+      *************************************************************************************/
+
+  /*************************************************************************************
+   * Step 3.)
+   * Comment out the code used for the last two parts and uncomment the following code.
+   * When you have performed the calibration steps above, make sure to change the 
+   * global variables "sensitivity" and "Vref" to what you have set up.
+   * 
+   * This next line of code will print out the calculated current from these parameters.
+   * The output is in mA
+      *************************************************************************************/
+
+  //Serial.print(current);
+  //Serial.print("mA");

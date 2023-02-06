@@ -19,6 +19,7 @@
 
 // const int analogInPin = A1;
 const int volt_in = A1;
+const int curr_in = A3; 
 // set ADC resolution to 12-bit (default is 10-bit)
 
 // 
@@ -27,11 +28,14 @@ const int volt_in = A1;
 // Change this to make the reading smoother... but beware of buffer overflows!
 const int avgSamples = 10;
 
+const int sensitivity = 1; 
+
 // int sensorValue = 0;
 int volt_counts = 0;
+int curr_counts = 0; 
 
-// float sensitivity = 100.0 / 500.0; //100mA per 500mV = 0.2
-// float Vref = 2500; // Output voltage with no current: ~ 2500mV or 2.5V
+float sensitivity = 1; //100.0 / 500.0; //100mA per 500mV = 0.2
+float Vref = 0; // Output voltage with no current: ~ 2500mV or 2.5V
 
 void setup() {
 
@@ -45,6 +49,7 @@ void loop() {
   // read the analog in value:
   for (int i = 0; i < avgSamples; i++) {
     volt_counts += analogRead(volt_in);
+    curr_counts += analogRead(curr_in);
     // sensorValue += analogRead(analogInPin);
 
     // wait 2 milliseconds before the next loop
@@ -54,68 +59,30 @@ void loop() {
   }
 
   volt_counts = volt_counts / avgSamples;
+  curr_counts = curr_counts / avgSamples;
 
-  // The on-board ADC is 12-bits -> 2^12 = 4096 -> 3.3V / 4096 ~= XX mV
-  // The voltage is in millivolts
-  float voltage = volt_counts * 1;
-
-  Serial.print(voltage);
-
-
+  // The on-board ADC is 12-bits -> 2^12 = 4096 -> 3300 mV / 4096 counts 0.8 mV/count
+  // XXX The voltage is in millivolts XXX
+  // The voltage will not be in millivolts until you adjust the sensitivity
+  float voltage = volt_counts * sensitivity; 
 
 
+  float current = (curr_counts*0.8 - Vref) * sensitivity;
+  
+
+  
 
 
-  // This will calculate the actual current (in mA)
-  // Using the Vref and sensitivity settings you configure
-  // float current = (voltage - Vref) * sensitivity;
-
-  // This is the raw sensor value, not very useful without some calculations
-  //Serial.print(sensorValue);
-
-  /*************************************************************************************
-   * Step 1.)
-   * Uncomment and run the following code to set up the baseline voltage 
-   * (the voltage with 0 current flowing through the device).
-   * Make sure no current is flowing through the IP+ and IP- terminals during this part!
-   * 
-   * The output units are in millivolts. Use the Arduino IDE's Tools->Serial Plotter
-   * To see a plot of the output. Adjust the Vref potentiometer to set the reference
-   * voltage. This allows the sensor to output positive and negative currents!
-   *************************************************************************************/
-
-  // Serial.print(voltage);
-  //Serial.print("mV");
-
-  /*************************************************************************************
-   * Step 2.)
-   * Keep running the same code as above to set up the sensitivity
-   * (how many millivolts are output per Amp of current.
-   * 
-   * This time, use a known load current (measure this with a multimeter)
-   * to give a constant output voltage. Adjust the sensitivity by turning the
-   * gain potentiometer.
-   * 
-   * The sensitivity will be (known current)/(Vreading - Vref).
-   *************************************************************************************/
-
-  /*************************************************************************************
-   * Step 3.)
-   * Comment out the code used for the last two parts and uncomment the following code.
-   * When you have performed the calibration steps above, make sure to change the 
-   * global variables "sensitivity" and "Vref" to what you have set up.
-   * 
-   * This next line of code will print out the calculated current from these parameters.
-   * The output is in mA
-   *************************************************************************************/
-
-  //Serial.print(current);
-  //Serial.print("mA");
 
 
-  // -- DO NOT UNCOMMENT BELOW THIS LINE --
+  Serial.print(voltage); 
+  Serial.print(", ");
+  Serial.print(current);
+ 
   Serial.print("\n");
 
   // Reset the sensor value for the next reading
   volt_counts = 0;
+  curr_counts = 0;
+  delay(100);
 }
