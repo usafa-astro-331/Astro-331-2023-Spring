@@ -171,11 +171,11 @@ Record these measurements in your lab notebook.
 
 ### Arduino measurement
 
-Now you will measure voltage with Arduino. 
+Now you will measure voltage with Arduino. Open `lab 00 metrology.ino`.
 
 #### Arduino program flow
 
-Every Arduino programs look like this:
+Review `lab 00 metrology.ino`. Every Arduino program look like this:
 
 - // comments begin with `//`
 - /* comment blocks (multiline comments) are surrounded by `/* … */` */
@@ -186,15 +186,29 @@ Every Arduino programs look like this:
 - void setup() {…}
   - The `setup` function takes no arguments (the empty parentheses) and returns no outputs (`void`)
   - This function runs once
+- (Optional) Additional commands and variable definitions in global namespace.
 - void loop(){…}
   - The `loop` function runs as long as the Arduino has power
   - It can include calls to functions defined elsewhere, usually after the final `}` of loop() 
+- (Optional) Function definitions can appear after loop()
 
 
 
-- Energize the power supply. **With a voltmeter, ensure that Arduino pin A1 only sees 3.3 V from ground even when the power supply provides 30 V.** 
+Look at the penultimate line of `lab 00 metrology.ino`.
 
-- Open `lab 00 metrology.ino` 
+```c++
+  delay(100);
+```
+
+This line inserts a delay of 100 milliseconds between every run of loop(). This prevents the serial monitor from scrolling uselessly fast. However, it's a terrible way to run a program. Since Arduino is a single-processor microcontroller, *nothing* else can happen during the delay. 
+
+This is acceptable for a simple program like this one, used to calibrate a sensor. However, FlatSAT constantly needs to accomplish and monitor multiple tasks, so it won't be acceptable in the future. 
+
+#### Verify electrical connections
+
+Energize the power supply. **With a voltmeter, ensure that Arduino pin A1 only sees 3.3 V from ground even when the power supply provides 30 V.** 
+
+#### Measure!
 
 - Connect Arduino to your computer. 
 
@@ -202,7 +216,7 @@ Every Arduino programs look like this:
 
 - Select the correct port (COMXX—try one until it works). 
 
-- Click `upload` (right arrow near the top of the window). 
+- Click *upload* (right arrow near the top of the window). 
 
 Open the Arduino IDE's serial plotter (tools -> serial plotter). Select "value 1" and unselect "value 2." 
 
@@ -222,7 +236,7 @@ $voltage = volt\_ counts * \left(\frac{XX\ mV}{count} * \frac{R_1}{R_1+R_2}\righ
 
 Calculate this factor and change the following code line to include the proper scale factor (instead of `sensitivity`, which was set to 1 earlier in the code). 
 
-```
+```c++
  float voltage = volt_counts * sensitivity;
 ```
 
@@ -236,19 +250,7 @@ Congratulations! You can measure voltage!
 
 ## To do!!
 
-move serial.print to the end of the lab for easy finding and modification
-
-- first: serial will print voltage count
-  - then cadets modify to print voltage
-- then: serial will print current count
-  - then cadets will set aref/zero point
-  - then cadets will adjust sensitivity
-
-write current section
-
 update fritzing file
-
-
 
 
 
@@ -323,7 +325,7 @@ Disconnect and reconnect the IP+ wire to find output voltage at (near) the expec
 
 Using Vdelta, calculate sensitivity (mA/mV) and adjust the following line of code. 
 
-```
+```c++
 float current = (curr_counts*0.8 - Vref) * sensitivity;
 ```
 
@@ -333,13 +335,89 @@ float current = (curr_counts*0.8 - Vref) * sensitivity;
 
 Attempt to measure 40 mA and 10 mA. Record your observations. Is this a suitable sensor? 
 
+
+
+### Intermediate cleanup
+
+- turn off the benchtop power supply (on/off button not illuminated)
+- disconnect Arduino
+- remove the ACS723 current sensor and associated wires
+
+
+
 ## Current—Ohm's Law
 
+Now try measuring current with a different sensor: INA219 (on an Adafruit breakout board). This sensor uses Ohm's law to calculate current from the voltage drop across a known precision resistor. 
+
+Review the INA219 datasheet. Record the Voltage and Current range in your lab notebook. Is this a suitable current sensor? 
+
+### git
+
+Switch to a new branch that has different code for `lab 00 metrology.ino`. 
+
+- tortoisegit -> switch/checkout -> current sensor 2
+
+### Connect Ohm's law current sensor
+
+The INA 219 current sensor communicates with Arduino using I2C. This is handled with the Adafruit_INA219 library. 
+
+Connect power
+
+- VCC (3.3 V)
+- ground 
+
+Connect I2C comm lines between Arduino and the current sensor
+
+- SDA
+- SCL
+
+Connect sensing lines
+
+- power supply + -> Vin+ 
+- Vin-  -> 330 Ω resistor -> ground
+
+#### Arduino program flow
+
+Open `lab 00 metrology.ino`. (Line 2 should read "lab 00 metrology (B).")
+
+Scan through the file and look at these lines
+
+```c++
+long present_time = 0
+long write_due = 0;
+long write_interval = 1000;
+
+void loop() {
+...
+present_time = millis(); 
+    
+    if(write_due < present_time){ 
+    ...
+        
+    write_due += write_interval; 
+
+    } // end if write_due
+    
+} // end function loop()
+```
+
+Instead of using delay, this sketch constantly runs as fast as it can. If it's time to write data, it will write data to the serial port. This method is better than `delay()` because it allows Arduino to continue running and performing other functions. 
+
+In the Arduino ecosystem, this method of program control is often called BWD (blink without delay). However, this example is better than the default BWD example because of how it measures the time delay. 
+
+#### Measure! 
+
+Connect Arduino to your computer and upload code. 
+
+Turn on your benchtop power supply (3.3 V, 150 mA).
+
+Open the serial plotter. 
 
 
 
+Now you can see voltage and current displayed on the serial plotter. Adjust the power supply's output current and watch the values change. 
 
-
+How much noise do you see? How 
 
 
 
