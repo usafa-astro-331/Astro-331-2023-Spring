@@ -1,83 +1,91 @@
 /* 
-lab 00 metrology (A)
+lab 00 metrology (B)
 USAF Astro 331
 2023 Spring
 Lt Col Jordan Firth
 
 required:
-ACS 723 current sensor- (on sparkfun breakout board- low current version)
+INA219 current sensor (on Adafruit breakout board)
 Arduino MKR 1000
 
 This script is used for an Astro 331 lab to measure current and voltage. 
+
+This script will read voltage and current from an INA219 current sensor and 
+calculate an exponential weighted moving average over `samples` samples (currently 50).
+
+The INA219 communicates with Arduino via I2C. With Adafruit's breakout board it has a default 
+address of 0x40. Communication is handled by the Adafruit_INA219 library. 
+
 */
 
-/*  modified from SparkFun ACS712 and ACS723 Demo
-    Created by George Beckstein for SparkFun
-    4/30/2017
-    Updated by SFE
-    6/14/2018
+#include <Wire.h>
+#include <Adafruit_INA219.h>
 
-    Uses an Arduino to set up the ACS712 and ACS723 Current Sensors
-    See the tutorial at: https://learn.sparkfun.com/tutorials/current-sensor-breakout-acs723-hookup-guide
-*/
+Adafruit_INA219 ina219;
 
-// const int analogInPin = A1;
-const int volt_in = A1;
-const int curr_in = A3; 
+#include <SPI.h>
 
-// Number of samples to average the reading over
-// Change this to make the reading smoother... but beware of buffer overflows!
-const int avgSamples = 10;
-
-// default sensor sensitivity of 1 and Vref of 0
-float sensitivity = 1; 
-float Vref = 0; // Output voltage with no current
-
-
-// initialize empty values for current and voltage
-int volt_counts = 0;
-int curr_counts = 0; 
-
-
-void setup() {
-
-// set ADC resolution to 12-bit (default is 10-bit)
-analogReadResolution(12); 
-
-  // initialize serial communications at 9600 bps:
+void setup(void) {
   Serial.begin(9600);
-} // end function setup()
 
-void loop() {
-
-  // read the analog in value:
-  for (int i = 0; i < avgSamples; i++) {
-    volt_counts += analogRead(volt_in);
-    curr_counts += analogRead(curr_in);
-
-    // wait 2 milliseconds before the next loop for the analog-to-digital converter to settle
-    // after the last reading:
-    delay(2);
+  // Initialize the INA219.
+  // By default the initialization will use the largest range (32V, 2A).  However
+  // you can call a setCalibration function to change this range (see comments).
+  if (! ina219.begin()) {
+    Serial.println("Failed to find INA219 chip");
+    while (1) { delay(10); }
   }
-
-  volt_counts = volt_counts / avgSamples;
-  curr_counts = curr_counts / avgSamples;
-
-  // The on-board ADC is 12-bits -> 2^12 = 4096 -> 3300 mV / 4096 counts 0.8 mV/count
-  // XXX Voltage is in millivolts XXX
-  // Voltage will not be in millivolts until you adjust the sensitivity
-  float voltage = volt_counts * sensitivity; 
-
-  float current = (curr_counts*0.8 - Vref) * sensitivity;
   
-  Serial.print(voltage); 
-  Serial.print(", ");
-  Serial.print(current);
- 
-  Serial.print("\n");
+  // To use a slightly lower 32V, 1A range (higher precision on amps):
+  ina219.setCalibration_32V_1A();
+  // Or to use a lower 16V, 400mA range (higher precision on volts and amps):
+  //ina219.setCalibration_16V_400mA();
 
-  // Reset the sensor value for the next reading
-  volt_counts = 0;
-  curr_counts = 0;
-  delay(100);
+ 
+} // end function setup
+
+  long present_time = 0; 
+  long write_due = 0;
+  long write_interval = 1000;
+
+  float shuntvoltage = 0;
+  float busvoltage = 0;
+  float current_mA = 0;
+  float solar_panel_voltage = 0;
+  float power_mW = 0;
+
+  float voltage=0 ;
+  float current=0 ; 
+
+  float samples = 50; // num of samples for an exponential weighted moving average
+
+void loop(void) 
+{
+
+  shuntvoltage = ina219.getShuntVoltage_mV();
+  busvoltage = ina219.getBusVoltage_V();
+  current_mA = ina219.getCurrent_mA();
+  //power_mW = ina219.getPower_mW();
+  solar_panel_voltage = busvoltage + (shuntvoltage / 1000);
+  
+
+voltage = voltage*(1-1/samples) + solar_panel_voltage/samples; 
+current = current * (1-1/samples) + current_mA/samples;
+
+present_time = millis(); 
+
+if(write_due < present_time){ 
+  String dataString = "";
+
+    
+  dataString += voltage;
+  dataString += ", ";
+  dataString += current ;
+ 
+  Serial.println(dataString);
+              
+        
+  write_due += write_interval; 
+} // end if: write data to serial
+
 } // end function loop()
