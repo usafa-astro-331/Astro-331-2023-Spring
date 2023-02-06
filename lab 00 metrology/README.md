@@ -351,11 +351,46 @@ Now try measuring current with a different sensor: INA219 (on an Adafruit breako
 
 Review the INA219 datasheet. Record the Voltage and Current range in your lab notebook. Is this a suitable current sensor? 
 
+INA219 measures both current and voltage—there is no need for a separate voltage divider circuit. 
+
 ### git
 
 Switch to a new branch that has different code for `lab 00 metrology.ino`. 
 
-- tortoisegit -> switch/checkout -> current sensor 2
+- tortoisegit -> switch/checkout -> `current sensor 2` 
+- **Note: this will fail**
+
+Your attempt to switch branches failed because you changed `lab 00 metrology.ino` The current saved version differs from the committed version. 
+
+
+
+You must do one of three things before you can checkout the `current sensor 2` branch. 
+
+- *commit* your changes **(Do not do this! It will interfere with lesson content for future sections.)**
+  - (Here's how you would commit your changes)
+    - git commit -> "main"
+    - A tortoisegit commit window opens
+    - select the updated files to commit
+    - "commit"
+  - You would then *push* your changes to the remote repository (github)
+- *revert* your changes
+  - You can do this
+  - tortoisegit -> revert
+  - This will permanently discard the changes you made and revert `lab 00 metrology.ino` to the version of record, the *committed* version
+- *stash* your changes
+  - You can do this
+  - tortoisegit -> stash -> give descriptive name -> OK
+  - This will:
+    -  save your changes to a temporary parallel location
+    - revert `lab 00 metrology.ino` to the version of record, the *committed* version
+
+
+
+Now that your code contains no uncommitted changes, git will allow you to switch branches. Do it. 
+
+- tortoisegit -> switch/checkout -> `current sensor 2`
+
+
 
 ### Connect Ohm's law current sensor
 
@@ -385,7 +420,7 @@ Scan through the file and look at these lines
 ```c++
 long present_time = 0
 long write_due = 0;
-long write_interval = 1000;
+long write_interval = 100;
 
 void loop() {
 ...
@@ -401,7 +436,7 @@ present_time = millis();
 } // end function loop()
 ```
 
-Instead of using delay, this sketch constantly runs as fast as it can. If it's time to write data, it will write data to the serial port. This method is better than `delay()` because it allows Arduino to continue running and performing other functions. 
+Instead of using delay, this sketch constantly runs as fast as it can. If it's time to write data (every 100 milliseconds), it will write data to the serial port. This method is better than `delay()` because it allows Arduino to continue running and performing other functions. 
 
 In the Arduino ecosystem, this method of program control is often called BWD (blink without delay). However, this example is better than the default BWD example because of how it measures the time delay. 
 
@@ -417,86 +452,40 @@ Open the serial plotter.
 
 Now you can see voltage and current displayed on the serial plotter. Adjust the power supply's output current and watch the values change. 
 
-How much noise do you see? How 
+How much noise do you see? Try at 160 mA, 40 mA, and 10 mA. 
+
+Is this sensor suitable for monitoring FlatSAT's solar array?
+
+Record observations in your lab notebook. 
 
 
 
+## Think about calibration
 
+Are the values reported by these sensors accurate? If you needed a more accurate measurement, how would you accomplish it? 
 
-## Current
+How does SSRC accomplish accurate measurements when working on FalconSAT? 
 
-measure 0–150 mA
+- We send our measurement equipment to the local AF PMEL (precision measurement equipment laboratory) for calibration.
 
-still need good resolution at 0–40 mA
+How does PMEL ensure the accuracy of their calibration standards? 
 
-One method: Hall effect current sensor: non-invasive
+Watch the following video. 
 
-sparkfun current sensor
-
-connect on breadboard
-
-analog sensor: measure output with a multimeter
-
-adjust power supply from 0–40 mA
-
-Is it good? Hard to tell
+https://www.youtube.com/watch?v=_k9egfWvb7Y
 
 
 
-Connect to Arduino and plot via serial monitor
+## Cleanup
 
-how about 0–150 mA?
+Switch back to the main repository branch. 
 
-calibrate/adjust gain and sensitivity
-
-…
+- tortoisegit -> switch/checkout -> `main`
 
 
 
+Return lab station to pre-lab condition
 
-
-  // This will calculate the actual current (in mA)
-  // Using the Vref and sensitivity settings you configure
-  // 
-
-  // This is the raw sensor value, not very useful without some calculations
-  //Serial.print(sensorValue);
-
-  /*************************************************************************************
-   * Step 1.)
-   * Uncomment and run the following code to set up the baseline voltage 
-   * (the voltage with 0 current flowing through the device).
-   * Make sure no current is flowing through the IP+ and IP- terminals during this part!
-   * 
-   * The output units are in millivolts. Use the Arduino IDE's Tools->Serial Plotter
-   * To see a plot of the output. Adjust the Vref potentiometer to set the reference
-   * voltage. This allows the sensor to output positive and negative currents!
-      *************************************************************************************/
-
-  // Serial.print(voltage);
-  //Serial.print("mV");
-
-  /*************************************************************************************
-   * Step 2.)
-   * Keep running the same code as above to set up the sensitivity
-   * (how many millivolts are output per Amp of current.
-   * 
-   * This time, use a known load current (measure this with a multimeter)
-   * to give a constant output voltage. Adjust the sensitivity by turning the
-   * gain potentiometer.
-   * 
-   * The sensitivity will be (known current)/(Vreading - Vref).
-      *************************************************************************************/
-
-  /*************************************************************************************
-   * Step 3.)
-   * Comment out the code used for the last two parts and uncomment the following code.
-   * When you have performed the calibration steps above, make sure to change the 
-   * global variables "sensitivity" and "Vref" to what you have set up.
-   * 
-   * This next line of code will print out the calculated current from these parameters.
-   * The output is in mA
-      *************************************************************************************/
-
-  //Serial.print(current);
-  //Serial.print("mA");
+- disconnect Arduino
+- turn off power supply
+- remove all wires and sensors from breadboard (leave Arduino on the breadboard)
