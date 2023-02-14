@@ -31,22 +31,20 @@ Since this is the first lab, you won't actually write the prelab report this tim
 ## hardware
 
 * ESD-safe grounding straps
-
-* Black case with a luxmeter inside
-
 * halogen lamp
-
 * breadboard with Arduino MKR ZERO
 * LCD display
 * INA219 current sensor breakout board
 * potentiometer
 * solar panel
-* battery holder
-* 3x charged 18650 Lithium Ion cells
+* 3x charged 18650 Lithium Ion cells & battery holder
 * 5 V BEC/UBEC (universal battery eliminator circuit) switching regulator
 * wires
 * microSD card 
 * USB microSD card reader
+* luxmeter
+
+![luxmeter](sources/luxmeter.png)
 
 ## setup
 
@@ -153,7 +151,16 @@ Disconnect the Arduino and turn off the halogen light.
 
 ### prepare for outdoor testing
 
-For outdoor testing, FlatSAT will be powered by a 3-cell 18650 Lithium ion battery with the cells connected in series, providing a nominal 11.1 V. The input pin of an Arduino MKR Zero (or MKR 1000) can tolerate 5-5.5 V. You will use a switching regulator called a BEC to step the supply voltage down from 12 V to 5 V. 
+For outdoor testing, FlatSAT will be powered by a 3-cell 18650 Lithium ion battery with the cells connected in series, providing a nominal 11.1 V. The input pin of an Arduino MKR Zero (or MKR 1000) can tolerate 5-5.5 V. You will use a switching regulator called a battery eliminator circuit (BEC) to step the supply voltage down from 12 V to 5 V. 
+
+![battery](sources/battery.jpg)
+
+Connect the wires from the battery to the BEC using the wago clip connectors. Use jumper wires to connect the female 5V BEC output to Arduino. 
+
+- red to Vin
+- black to ground (connecting to the ground rail is fine)
+
+
 
 Arduino will further step the 5 V down to 3.3 V for its internal logic. 3.3 V out is also available on the Vcc pin to power peripherals. 
 
@@ -166,20 +173,11 @@ Arduino pins:
 
 **Note**: applying 12 V directly to Vin will break your Arduino. 
 
-- Velcro the battery holder to back of breadboard. 
-- Connect 3-cell 18650 Li-ion holder to posts on breadboard holder. 
 
-- Using banana plugs, connect the battery holder wires to the posts on your breadboard
-  - Red: positive
-  - Black: negative
-- Connect the BEC 
-  - 12 V side connects to breadboard posts
-  - 5 V side connects to FlatSAT
-    - Red: Vin
-    - Black: ground rail
+
 - **Have your instructor check your connections**
 - Insert Li-ion cells and verify that FlatSAT works
-- remove cells
+- disconnect battery (remove jumper pin from Vin)
 
 ## data collection scheme
 
