@@ -1,0 +1,3 @@
+- This lab was too long and nobody finished.
+- Nobody really understood quantization/sensor resolution. 
+- The multimeter exercises didn't add anything—skip them. 
