@@ -200,3 +200,15 @@ Disconnect power, rewire the solar array in parallel, and repeat these steps to 
 ## data collection
 
 - transfer `datalog.txt` to your own computer for later analysis
+
+
+
+## cleanup
+
+Leave all FlatSAT components and wires connected for future labs. 
+
+Remove 18650 cells and place them on the charger. 
+
+Place FlatSAT neatly on the left side (M-day) or right side (T-day) of your lab station. 
+
+Turn off everything and straighten your work area. 
