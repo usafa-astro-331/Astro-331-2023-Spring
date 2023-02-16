@@ -29,13 +29,7 @@ solar array can meet mission requirements.
 * ArduCAM-M-2MP
 * resolution chart
 * metric ruler
-* cables and wires
-
-
-
-![image-20230114103713337](C:\Users\jordan\AppData\Roaming\Typora\typora-user-images\image-20230114103713337.png)
-
-
+* wires
 
 ## setup
 
@@ -119,26 +113,32 @@ Take and save a photo of your team using ArduCAM.
 
 ### Measure and prepare resolution chart
 
-<img src="sources\ISO_12233-reschart.svg" alt="ISO_12233-reschart" style="zoom: 33%;" />
+<img src="sources\ISO_12233-reschart letter.svg" alt="ISO_12233-reschart" style="zoom: 33%;" />
+
+- There are two resolution charts printed at your lab station. They are also available electronically with these lab instructions. 
+  - ISO_12233-reschart letter
+  - ISO_12233-reschart big
 
 - Using the metric ruler at your lab station, measure the height of the resolution chart (triangle-to-triangle). Note the remark at the top: "VALUES IN 100X LINES PER PICTURE HEIGHT."
 - Verify the scale of the resolution markings. If the image height is 200 mm, at the 1 mark there should be 100 lines/200 mm, making each line 2 mm wide. 
 - Note this scale for later use after the lab. 
+- Repeat these steps for the large resolution chart. 
+
+<img src="sources\ISO_12233-reschart big.svg" alt="ISO_12233-reschart" style="zoom: 33%;" />
 
 ### Position the camera and resolution chart
 
 You will use your camera to record images at the same distances you predicted in the prelab (except 500 km). 
 
 - Position the camera and resolution chart so that they are perpendicular at the same height and 0.5 m apart. Ensure the chart is illuminated evenly and both objects are sufficiently supported to remain still during image capture. 
-- Set the resolution chart vertically
 - Click “Capture” to take the image. You may have to wait a few seconds for the data to transfer back to the computer. Once it has completed, you should get a message in the GUI and should be able to see a jpeg file in the location you specified. Double-click on the image, to ensure a satisfactory image. Re-take if necessary. 
 - Once you are satisfied, rename the image with the distance in the filename. 
 - Repeat this process for the distances calculated in your prelab (1, 2, and 5 m).
 
 ## Lab station cleanup
 
-- Transfer all captured images to your group's storage location
-- Carefully disconnect the micro-USB to USB cable from your laptop and the Arduino microcontroller
+- Transfer all captured images to your group's storage location (your computer or share drive)
+- Disconnect the micro-USB to USB cable from your laptop and the Arduino microcontroller
 - Remove the ESD wrist straps and replace them in the bag at your lab station.
 - Replace all items at your lab station the way you found them. 
 - Close the GUI, close the Arduino IDE, and log out of the laptop.
