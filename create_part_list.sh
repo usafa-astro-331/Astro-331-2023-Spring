@@ -1,6 +1,7 @@
 #!/bin/sh
 # combine lab part lists into a consolidated part list
-cat lab\ 00\ metrology/parts00.csv > parts.csv
+cat lab\ equipment/lab_equpiment.csv > parts.csv
+tail -n +2 lab\ 00\ metrology/parts00.csv >> parts.csv
 tail -n +2 lab\ 01\ electrical\ power/parts01.csv >> parts.csv
 tail -n +2 lab\ 02\ camera\ payload/parts02.csv >> parts.csv
 tail -n +2 lab\ 03\ communication/parts03.csv >> parts.csv
