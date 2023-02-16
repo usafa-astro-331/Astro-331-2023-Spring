@@ -7,6 +7,12 @@ You will also record the incident luminosity with a luxmeter.
 In your final lab report, you will compare your prelab performance predictions to the results you record in this lab. You will present your I-V plot and use it to identify your array's peak power. You will calculate array efficiency using the incident luminosity and the peak power generated. Finally, you will recommend any design changes necessary to ensure the
 solar array can meet mission requirements.
 
+## report
+
+For each lab you will write a prelab report. At the end of the semester you will also write a single lab report (with data) covering all labs from the semester.
+
+Prelab report instructions are here: [https://www.overleaf.com/read/mkfdycznthxz](https://www.overleaf.com/read/kfwyrpfyjkmy)
+
 ## documentation
 
 - ArduCAM-M-2MP user guide
