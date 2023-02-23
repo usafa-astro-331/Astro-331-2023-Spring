@@ -39,7 +39,7 @@ int INT_PIN = 0; //define interrupt pin to 0
 
 void setup() {
   // pinMode(INT_PIN, INPUT_PULLUP); // LS18 hardware debounce chip has a built-in pullup resistor
-   attachInterrupt(digitalPinToInterrupt(INT_PIN), myCAMSaveToSDFile, FALLING);
+   attachInterrupt(digitalPinToInterrupt(INT_PIN), myCAMSaveToSDFile, RISING);
    //interrupt at pin 2 blink ISR when pin to change the value
 // } 
 
@@ -125,12 +125,12 @@ Serial.println(F("SD Card detected."));
 myCAM.set_format(JPEG);
 myCAM.InitCAM();
 #if defined (OV2640_MINI_2MP)
-  myCAM.OV2640_set_JPEG_size(OV2640_320x240);
+  myCAM.OV2640_set_JPEG_size(OV2640_1600x1200);
 #elif defined (OV3640_MINI_3MP)
-  myCAM.OV3640_set_JPEG_size(OV3640_320x240);
+  myCAM.OV3640_set_JPEG_size(OV3640_1600x1200);
 #else
   myCAM.write_reg(ARDUCHIP_TIM, VSYNC_LEVEL_MASK);   //VSYNC is active HIGH
-  myCAM.OV5642_set_JPEG_size(OV5642_320x240);
+  myCAM.OV5642_set_JPEG_size(OV5642_1600x1200);
 #endif
 delay(1000);
 } // end setup()
