@@ -137,8 +137,8 @@ delay(1000);
 
 
 void loop(){
-myCAMSaveToSDFile();
-delay(5000);
+// myCAMSaveToSDFile();
+// delay(5000);
 }
 
 
