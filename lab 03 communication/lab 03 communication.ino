@@ -1,7 +1,7 @@
 // #include "DHT.h"                 // Temperature and Humidity Sensor Library
 // #include <Arduino.h>             // Standard Arduino Library
 #include <wiring_private.h>      // For additional serial ports
-#include "./src/BreezyArduCAM_single_jpeg.h"       // Arducam 'driver'
+#include <BreezyArduCAM_single_jpeg.h>       // Arducam 'driver'
 #include <SPI.h>                 // SPI communications
 //#include "./src/WiFi101.h"             // Library for the built-in WiFi card on the MKR 1000
  #include "WiFiUdp.h"             // Load UTP protocol for WiFi
@@ -10,7 +10,7 @@
 
 //Change the following to the name of the satellite and the PAN ID (4 digits)
 #define SAT_NAME "OSCAR-12"
-#define PAN_ID   "3331"
+#define PAN_ID   "3332"
 
 //For photocells - determines whether to save to a csv file on Python machine or to print
 int cell[2] = {3, 2};
