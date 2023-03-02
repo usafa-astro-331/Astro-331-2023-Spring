@@ -1,0 +1,33 @@
+{
+	"radio_config"   : {
+				"port" 		  : "/dev/cu.usbserial-AK05ZGY7",
+				"baud" 		  : 9600,
+				"sat_name"        : "OSCAR-12",
+				"pan"		  : "32",
+				"name"		  : "Base"
+			   },
+	"commands"  : {
+				"get_sat_time"             : ["1", "Asks the satellite for the current time onboard (UTC)."],
+        			"get_3_axis_data"          : ["2", "Asks the satellite for the current acceleration (x,y,z), gyroscope (x,y,z), magnetometer (x,y,z) and temperature (Celsius)."],
+				"get_temp_data"            : ["3", "Asks the satellite for the current core temperature (Celsius)."],
+				"get_battery_current"      : ["4", "Asks the satellite for the current amperes (DC) being consumed from the battery."],
+				"get_solar_current"        : ["5", "Asks the satellite for the current amperes (DC) being consumed from the solar panels."],
+				"get_other_current"        : ["6", "Asks the satellite for the current amperes (DC) being consumed from the other current sensor."],
+        			"get_picture"              : ["7", "Asks the satellite to take a picture with the onboard camera. Picture will be displayed for review, and if acceptable, will be store as a jpeg file on the command console file system."],
+                                "start_comm"               : ["8", "Establish  communication with the satellite. This is what is sent when the 'Connect' button on the command console is pressed."],
+        			"stop_comm"                : ["9", "Terminate  communication with the satellite. This is what is sent when the 'Disconnect' button on the command console is pressed."],
+				"get_photocell_data"       : ["10", "Asks the satellite to report the current DC voltable on the four light sensors."],
+				"get_rssi"                 : ["11", "Obtain the Received Signal Strength Indicator (RSSI) from the command console's radion.],
+                                "record_3_axis_data"       : ["12", "Asks the satellite to send, by default, 30 seconds of data from the command get_3_axis data. If this command is immediately followed by an equal sign (=) and an integer, then the satillite will send that many seconds of data from the command get_3_axis_data."],
+                                "record_current_data"      : ["13", "Asks the satellite to send, by default, 30 seconds of data from the command get_current_data. If this command is immediately followed by an equal sign (=) and an integer, then the satillite will send that many seconds of data from the command get_3_current_data."],
+                                "record_photocell_data"    : ["14","Asks the satellite to send, by default, 30 seconds of data from the command get_photocell_data. If this command is immediately followed by an equal sign (=) and an integer, then the satillite will send that many seconds of data from the command get_photocell_data."],
+                                "set_motor_rotation"       : ["15", "Asks the satellite to turn on the onboard motore and turn in a specific direction for a couple of seconds. This command shall be followed by an equal sign (=) and an integer. The integer has to be one of the following:<br><ul><li>1 - Step forward a pre-defined number of steps.</li><li>2 - Step backwards a pre-defined number of steps.</li><li>3 - Step forward in 'half steps' a pre-defined number of steps.</li><li>4 - Step forward, then backward, a pre-defined number of steps.</li></ul>"],
+				"turn_on_magnet"           : ["16", "Asks the satellite to turn on the onboard magnet to test the magnetometer."],
+				"turn_off_magnet"          : ["17", "Asks the satellite to turn off the onboard magnet when testing of the  magnetometer has been completed."]
+			   },
+	"file_names"     : {
+				"12" : ["axis_data", "temp,accX, accY,accZ,gyrX,gyrY,gyrZ,magX,magY,magZ"],
+				"13" : ["current_data", "battery, solar, other"],
+				"14" : ["photocell_data", "cell1, cell2, cell3, cell4"]
+			   } 			   
+}

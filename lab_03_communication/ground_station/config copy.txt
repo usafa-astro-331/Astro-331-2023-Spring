@@ -1,0 +1,7 @@
+{
+	"port" : "/dev/cu.usbserial-AK05ZGY7",
+	"baud" : 9600,
+	"high" : "0013A200",
+	"low"  : "41BFBC4E",
+	"name" : "OSCAR-12"
+}

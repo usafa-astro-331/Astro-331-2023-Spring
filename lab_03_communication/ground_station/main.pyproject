@@ -1,0 +1,3 @@
+{
+    "files": ["help.ui","helpers.py","main.py","display_help.py","show_picture.py","prior_commands.ui","select_com_port.py","show_prior_commands.py","form.ui","are_you_sure.py","show_picture.ui","printer.py"]
+}

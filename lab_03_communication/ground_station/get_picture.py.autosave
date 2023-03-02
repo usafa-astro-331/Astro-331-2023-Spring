@@ -1,0 +1,37 @@
+import sys
+import time
+import os
+import serial
+from typing import Iterator, Tuple
+from serial.tools.list_ports import comports
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+from PyQt5.QtPrintSupport import *
+from PyQt5 import uic, QtPrintSupport
+from PyQt5.QtGui import QPixmap
+from helpers import *
+
+
+class get_picture(QDialog):
+    picture = QByteArray()
+    image = None
+    port = None
+
+    def __init__(self, *args, **kwargs):
+        super(get_picture, self).__init__()
+        self.load_ui()
+        self.setWindowTitle("Received Picture")
+        self.port = kwargs['port']
+        print(self.port)
+        print('Getting picture')
+        self.get_pic_from_arduino()
+        print('Picture obtained')
+
+
+    def load_ui(self):
+        path = os.path.join(os.path.dirname(__file__), "get_picture.ui")
+        uic.loadUi(path, self)
+        self.get_pic_from_arduino()
+
+       self.picture.setPixmap(self.image)

@@ -1,0 +1,38 @@
+{
+	"radio_config"   : {
+				"port" 		  : "COM16",
+				"baud" 		  : 9600,
+				"sat_name"        : "OSCAR-12",
+				"pan"		  : "32",
+				"name"		  : "Base"
+			   },
+	"commands"  : {
+				"get_light_level"          : ["1", "Asks the satellite for the current voltage (DC) on the four light sensors"],
+        			"get_3_axis_data"          : ["2", "Asks the satellite for the current acceleration (x,y,z), gyroscope (x,y,z), magnetometer (x,y,z) and temperature (Celsius)"],
+				"get_temp_data"            : ["3", "Asks the satellite for the current core temperature (Celsius)"],
+				"get_battery_current"      : ["4", "Asks the satellite to get the current DC amperes being used from the onboard battery."],
+				"get_solar_current"        : ["5", "Asks the satellite to get the current DC amperes being used from the onbord solar panels."],
+				"get_other_current"        : ["6", "Asks the satellite to get the current DC amperes being used from the onboard other current sensor."],
+        			"get_picture"              : ["7", "Asks the satellite to transmit a picture from the onboard camera. Picture will be displayed, and if so desired, can be stored as a jpeg on the local device"],
+                                "start_comm"               : ["8", "Establish communcations with the satellite. This is the command that is sent to the satellite when the 'Connect' button is pressed on the command console."],
+        			"stop_comm"                : ["9", "Terminate communcations with the satellite. This is the command that is sent to the satellite when the 'Disonnect' button is pressed on the command console."],
+				"get_photocell_data"       : ["10", "Asks the satellite for the current DC voltage on the four onboard photocells."],
+				"get_rssi"                 : ["11", "Retrieves from the local radio the current Received Signal Strength Indicator (RSSI) for the last transmission received."],
+                                "record_3_axis_data"       : ["12", "By default, will record 30 seconds of get_3_axis_data and store in a .csv file on the local device. If more than 30 seconds is required, append an equal sign (=) followed by an integer that represents the number of seconds desired in the recording."],
+                                "record_current_data"      : ["13", "By default, will record 30 seconds of get_current_data and store in a .csv file on the local device. If more than 30 seconds is required, append an equal sign (=) followed by an integer that represents the number of seconds desired in the recording."],                              
+                                "record_photocell_data"    : ["14", "By default, will record 30 seconds of get_photocell_data and store in a .csv file on the local device. If more than 30 seconds is required, append an equal sign (=) followed by an integer that represents the number of seconds desired in the recording."],                              
+                                "set_motor_rotation"       : ["15", "This command will instruct the satellite to turn on the onboard motor for a pre-determined amount of time. This command shall be followed by and equal sign (=) and one of the following integers:<ul><li>1 - Move in a forward direction</li><li>2 - Move in a backwars direction</li><li>3 - Move in a forward direction at half-steps</li><li>4 - Move in a forward, then immediately a backward,  direction</li></ul>"],
+				"turn_on_pin_5"           : ["16", "Turn on pin 5."],
+				"turn_off_pin_5"          : ["17", "Turn off pin 5."],
+				"turn_on_pin_3"    : ["18", "Turn on pin 3."],
+				"turn_off_pin_3"   : ["19", "Turn off pin 3."],
+				"turn_on_pin_4"    : ["20", "Turn on pin 4."],
+				"turn_off_pin_4"   : ["21", "Turn off pin 4."],
+				"get_sat_rssi"			: ["22", "Get the RSSI of the last transmission that the satellite received."]
+	},
+	"file_names"     : {
+				"12" : ["axis_data", "temp,accX, accY,accZ,gyrX,gyrY,gyrZ,magX,magY,magZ"],
+				"13" : ["current_data", "battery, solar, other"],
+				"14" : ["photocell_data", "cell1, cell2, cell3, cell4"]
+			   } 			   
+}
