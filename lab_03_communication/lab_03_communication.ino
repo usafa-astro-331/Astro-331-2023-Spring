@@ -6,7 +6,7 @@
 // #include <WiFi101.h>                    // Library for the built-in WiFi card on the MKR 1000
 // #include <WiFiUdp.h>                    // Load UTP protocol for WiFi
 // #include <RTCZero.h>                    // Load the Real Time Clock driver
-#include "wifi_info.h"                  // WiFi SSID and password
+#include "wifi_info.h"  // WiFi SSID and password
 
 //Change the following to the name of the satellite and the PAN ID (4 digits)
 #define SAT_NAME "OSCAR-12"
@@ -154,8 +154,8 @@ void setup() {  // The items in this function are run at boot time for the Ardui
                 // setup_wifi();                            // Setup and turn on WiFi
                 // setup_rtc();                             // Setup the Real Time Clock
   // rtc.begin();
-  setup_serial_comms();                      // Setup Serial2 and Serial3
-  // setup_Arducam();                           // Setup Arducam parameters
+  setup_serial_comms();  // Setup Serial2 and Serial3
+  setup_Arducam();                           // Setup Arducam parameters
   setup_output_pins();
   Serial.println("Cube Sat Connected!");  // Debug message to signify USB has connected
 
