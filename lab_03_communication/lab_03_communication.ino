@@ -1,16 +1,16 @@
 // #include "DHT.h"                 // Temperature and Humidity Sensor Library
-// #include <Arduino.h>             // Standard Arduino Library
+#include <Arduino.h>             // Standard Arduino Library
 #include <wiring_private.h>      // For additional serial ports
 #include <BreezyArduCAM_single_jpeg.h>       // Arducam 'driver'
 #include <SPI.h>                 // SPI communications
-//#include "./src/WiFi101.h"             // Library for the built-in WiFi card on the MKR 1000
- #include "WiFiUdp.h"             // Load UTP protocol for WiFi
-#include <RTCZero.h>            // Load the Real Time Clock driver
-//#include "wifi_info.h"           // WiFi SSID and password
+#include <WiFi101.h>             // Library for the built-in WiFi card on the MKR 1000
+#include <WiFiUdp.h>             // Load UTP protocol for WiFi
+#include <RTCZero.h>             // Load the Real Time Clock driver
+#include "wifi_info.h"           // WiFi SSID and password
 
 //Change the following to the name of the satellite and the PAN ID (4 digits)
 #define SAT_NAME "OSCAR-12"
-#define PAN_ID   "3332"
+#define PAN_ID   "3331"
 
 //For photocells - determines whether to save to a csv file on Python machine or to print
 int cell[2] = {3, 2};
@@ -26,7 +26,7 @@ long int sensor[3] = {A0, A1, A2};
 //Assign pin 6 to switch on and off the magnet
 #define MAGNET 5
 #define STARBOARD 4
-#define PORT_T 3
+#define PORT_T 3 
 
 //UDP setup for NTP
 unsigned int localPort = 2390;          // local port to listen for UDP packets
@@ -43,10 +43,10 @@ RTCZero rtc;                     // Create a Real Time Clock object
 const int GMT = 0;               // USAFA time zone
 
 //WiFi setup
-//char ssid[] = SECRET_SSID;       // The network SSID (name)
-//char pass[] = SECRET_PASS;       // your network password (use for WPA, or use as key for WEP)
-//int keyIndex = 0;                // your network key Index number (needed only for WEP)
-//int status = WL_IDLE_STATUS;     // WiFi currently set to idle
+char ssid[] = SECRET_SSID;       // The network SSID (name)
+char pass[] = SECRET_PASS;       // your network password (use for WPA, or use as key for WEP)
+int keyIndex = 0;                // your network key Index number (needed only for WEP)
+int status = WL_IDLE_STATUS;     // WiFi currently set to idle
 
 //Arducam setup
 static const int CS = 7;         // Defined for Arducam
@@ -85,18 +85,18 @@ static const char MKR1000_LED       = 6;
 // NOTE: SERCOM3 and SERCOM 4 are the 'internal' serial communication ports on the SAMD chip.
 // The two lines below 'tie' the internal serial communications to the pins on the MKR1000 
 Uart Serial2(&sercom3, PIN_SERIAL2_RX, PIN_SERIAL2_TX, PAD_SERIAL2_RX, PAD_SERIAL2_TX);
-Uart Serial3(&sercom4, PIN_SERIAL3_RX, PIN_SERIAL3_TX, PAD_SERIAL3_RX, PAD_SERIAL3_TX);
+//Uart Serial3(&sercom4, PIN_SERIAL3_RX, PIN_SERIAL3_TX, PAD_SERIAL3_RX, PAD_SERIAL3_TX);
 
 void SERCOM3_Handler()    // Interrupt handler for SERCOM3
 {
   Serial2.IrqHandler();
 }
-
+/*
 void SERCOM4_Handler()    // Interrupt handler for SERCOM4
 {
   Serial3.IrqHandler();
 }
-
+*/
 void configureRadio() {
   // The XBee 3 on the MKR 1000 has to be configured as a router, 9600 baud, and in AT mode 
   // put the radio in command mode: 
@@ -152,9 +152,9 @@ void setup_additional_serial_ports(){
   pinPeripheral(1, PIO_SERCOM);                                   // Pin 0 is TX and Pin 1 is RX
   Serial2.begin(9600);                                            // Begin Serial2 at 9600 baud 
 
-  pinPeripheral(4, PIO_SERCOM_ALT);                             // Assign pins 4 & 5 SERCOM functionality
-  pinPeripheral(5, PIO_SERCOM_ALT);                             // Pin 4 is TX and Pin 6 is RX
-  Serial3.begin(9600);                                          // Begin Serial3 at 57600 baud 
+//  pinPeripheral(4, PIO_SERCOM_ALT);                             // Assign pins 4 & 5 SERCOM functionality
+//  pinPeripheral(5, PIO_SERCOM_ALT);                             // Pin 4 is TX and Pin 6 is RX
+//  Serial3.begin(9600);                                          // Begin Serial3 at 57600 baud 
   Serial.println("setup_additional_serial_ports() completed");
 }
 
@@ -211,7 +211,7 @@ void sendNTPpacket(IPAddress& address) {
   //Serial.println("6");
 }
 
-/*
+
 void printWifiStatus() {
   // print the SSID of the network you're attached to:
   Serial.print("SSID: ");
@@ -228,10 +228,8 @@ void printWifiStatus() {
   Serial.print(rssi);
   Serial.println(" dBm");
 }
-*/
 
-/*
- * void setup_wifi(){
+void setup_wifi(){
   if (WiFi.status() == WL_NO_SHIELD) {
     Serial.println("WiFi shield not present");
     // don't continue:
@@ -252,7 +250,6 @@ void printWifiStatus() {
   // you're connected now, so print out the status:
   printWifiStatus();
 }
-*/
 
 unsigned long query_time_server(){
   Serial.println("Starting query_time_server()");
@@ -337,7 +334,7 @@ void setup() {                               // The items in this function are r
  // setup_rtc();                             // Setup the Real Time Clock
   rtc.begin();    
   setup_serial_comms();                      // Setup Serial2 and Serial3
-  setup_Arducam();                           // Setup Arducam parameters
+  // setup_Arducam();                           // Setup Arducam parameters
   setup_output_pins();
   Serial.println("Cube Sat Connected!");     // Debug message to signify USB has connected
 
@@ -516,13 +513,13 @@ void get_command_from_pc(){
       Serial.println(value);
       switch(do_it){                                          // Determine what we are supposed to do
         
-            case 8: Serial1.print("FlatSat Command Port Ready at ");
+            case 8: Serial1.print("OSCAR-12 Command Port Ready at ");
                     sync_rtc(value);
-                    Serial.println("FlatSat Command Port Ready");
+                    Serial.println("OSCAR-12 Command Port Ready");
                     break;
                     
-            case 9: Serial1.println("FlatSat Exiting Command Mode");
-                    Serial.println("FlatSat Exiting Command Mode");
+            case 9: Serial1.println("OSCAR-12 Exiting Command Mode");
+                    Serial.println("OSCAR-12 Exiting Command Mode");
                     break;
             
             case 1: get_current_time();
