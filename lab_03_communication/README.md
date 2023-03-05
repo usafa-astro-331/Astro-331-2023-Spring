@@ -116,33 +116,34 @@ Connect SPI comm lines
 
 ## Setup the ground station
 
-- Set up the ground station antenna. Pull out the XBee USB dongle (looks like a red USB stick). It should have a black Digi XBee Radio module mounted on the top that looks just like the shield mounted on top of the XBee Explorer board. That is the radio module. Carefully screw in one small antenna to your ground radio (XBee USB Dongle) and the other small antenna to your FlatSat radio. 
+- Attach a small antenna to the RP-SMA connector of your ground station radio. 
+- If your FlatSat radio has an RP-SMA connector, attach a small antenna to it.
 
 ![img](sources/clip_image002.jpg)
 
-- Connect your ground radio (XBee USB Dongle) to the lab station PC. Open Device Manager on the lab station PC, and click on “Ports.” Note which port number is assigned to your ground antenna (there should only be one active port, as you should have already disconnected the USB to the Arduino).
+- If you don't already have the serial port number of your ground station antenna (COMXX), find it from device manager
+  - Open Device Manager on the lab station PC, and click on “Ports.” Note which port number is assigned to your ground antenna (there should only be one active port, as you should have already disconnected the USB to the Arduino).
 
 ![img](sources/clip_image004-1675315164882-5.jpg)
 
-- Open File Explorer. Navigate to Libraries > Documents > cube_sat !!. Find a file called “config.json” and double-click on it.
+- In a text editor, open `.\ground_station\config.json`
 
 ![img](sources/clip_image006-1675315164882-6.jpg)
 
-- Within the Config file, at the top, you will see a section called “radio_config.” Modify the “port” name to match what you saw in Device Manager for your ground antenna. Then modify the “pan” number to match the two-digit number written on the tape on the bottom of your ground antenna and your FlatSat Module 1. Save your changes and close the Config file.
+- In the “radio_config” section, modify the “port” name to match the serial port ("COMXX") of your ground antenna. 
+- Modify the “pan” number to match the two-digit number written on the tape on your ground radio. Save your changes and close the Config file.
 
 ![img](sources/clip_image008-1675315164882-7.jpg)
 
-## Part 4 – Connecting the FlatSat Module to the second laptop
+## Connect FlatSAT to the second laptop
 
-- Carefully connect the USB cable to the Arduino MKR 1000 and a USB port on a second laptop (either your own cadet one or an extra lab station laptop). You should see a green LED light up on the board, indicating it has power.
+- Connect FlatSAT to a USB port on a second laptop. You should see a green LED light up on the board, indicating it has power.
 
 - Open Arduino IDE 
 
-- From the tools menu, select the correct board (MKR 1000) and port
+- From the tools menu, select the correct board (MKR Zero) and port
 
 - Open the serial monitor (tools menu)
-
-![img](sources/clip_image004.gif)
 
 - A dialog box should open with the number of your COM port at the top. This helps with debugging error messages from the Arduino. Ensure that the “Autoscroll” and “Show timestamp” boxes are checked.
 
@@ -150,13 +151,13 @@ Connect SPI comm lines
 
 - You should start to see messages from Arduino. If they end with “ Received: OK and 0 0” then you are good to go. If the messages continue to autoscroll without stopping, you will need to disconnect your USB cable from your laptop and close the serial monitor. Then you will need to re-connect the USB cable to your laptop and re-open the serial monitor. If you do not get the “OK” message in the serial monitor the second time, double-check that you connected all of the wires correctly.
 
-## Part 5 – Sending and Receiving Data
+## Sending and Receiving Data
 
 - We will now be using a simulated ground station software, written in Python, to communicate from the ground station radio (connected to your laptop) to your FlatSat (the breadboard radio). Open Thonny on the lab station PC.
 
 ![img](sources/clip_image002-1675315509767-20.jpg)
 
-- Click on the “Open” menu, then navigate to the following folder Libraries > Documents > cube_sat. Select “main.py”!!  and click “Open.”
+- Open `.\ground_station\main.py`
 
 ![img](sources/clip_image004-1675315509766-17.jpg)
 
@@ -182,7 +183,7 @@ Connect SPI comm lines
 
 ![img](sources/clip_image017.jpg)
 
-- Now, you are ready to set up your FlatSat Module at the pre-determined distances and take measurements of the signal strength. To appropriately space out the two antennas to perform your data collection, you will be moving your second !! laptop connected to the FlatSat module and leaving the ground antenna (XBee USB Dongle) connected to your lab station laptop. Using the measuring tape, align the laptop such that the FlatSat antenna is 0.5 meters away from the ground antenna. 
+- Now, you are ready to set up your FlatSat Module at the pre-determined distances and take measurements of the signal strength. To appropriately space out the two antennas to perform your data collection, you will be moving FlatSat and leaving the ground station antenna connected to your lab station laptop. Using the measuring tape, position the laptop such that the FlatSat antenna is 0.5 meters away from the ground antenna. The antennas should be level and parallel. 
 
 - Click on the teal Arduino icon on the top-left to open communications between the ground radio and the FlatSat radio. As before, you should see a message pop up saying “Attempting to connect to OSCAR-12.” Then, a second or so later you should see another message saying “OSCAR-12 Command Port Ready.”
 
@@ -192,7 +193,7 @@ Connect SPI comm lines
 
 **Note: If you do not record these RSSI values at each distance, you will have to repeat the lab. Don’t forget to write them down!**
 
-- Try changing out your small antenna on your ground station antenna (the small red USB stick) with the larger antenna – representing that ground stations typically have much higher gain than the spacecraft. Gently disconnect the XBee USB Dongle from the laptop before you unscrew the small antenna and screw in the large antenna. The large antenna has a gain of 5 dB – see if you notice the difference in the RSSI values. Try taking a measurement at one of the distances you already did (0.5, 1, 2 or 5 m) and compare your results.
+- Try changing out your small antenna on your ground station antenna (the small red USB stick) with the larger antenna – representing that ground stations typically have much higher gain than the spacecraft. Gently disconnect the XBee USB Dongle from the laptop before you unscrew the small antenna and screw in the large antenna. The large antenna has a gain of 5 dB – see if you notice the difference in the RSSI values. Take a measurement at one of the distances you already did (0.5, 1, 2 or 5 m) and compare your results.
 
 ## send data
 
@@ -206,29 +207,15 @@ Connect SPI comm lines
 
 - Repeat Step 15 for Digital Pin 4 and Digital Pin 5. Try this at various distances around the lab to see how far your radio link will allow you to send commands from. Try walking out into the hallway and see how far you can get and still receive commands. (The measuring tape is only 30’, so you’ll have to approximate distances.) You will need to comment on how far you are able to transmit and receive in your final lab report.
 
-- Try to take an image with the ArduCAM and send it back over the radio link to the ground station (lab station laptop). Using your cell phone or watch, time how long it takes from the time you send the command to take an image until you receive it (it should pop open) on the ground station (lab station laptop). The command for that is “get_picture”. Recall from our Payloads lesson that it could take a while if the data rate is not very high. If you are able to receive an image, save the image to include the image in your final lab report. If you don’t receive anything after five minutes, you may close communications by click on the red “x” icon. Whether you receive an image or not, comment on how long it took and what that means for the FlatSat communications design.
+- At a short distance, try to take an image with FlatSAT and send it back over the radio link to the ground station (lab station laptop). Using your cell phone or watch, time how long it takes from the time you send the command to take an image until you receive it on the ground station (it should pop open automatically when transfer is complete). The command for that is “get_picture”. Recall from our Payloads lesson that it could take a while if the data rate is not very high. If you are able to receive an image, save the image to include the image in your final lab report. If you don’t receive anything after five minutes, you may close communications by click on the red “x” icon. Whether you receive an image or not, comment on how long it took and what that means for the FlatSat communications design.
 
-# leftovers from camera lab
+# ## Lab station cleanup
 
-You will use your camera to record images at the same distances you predicted in the prelab (except 500 km). 
-
-- Position the camera and resolution chart so that they are perpendicular at the same height and 0.5 m apart. Ensure the chart is illuminated evenly and both objects are sufficiently supported to remain still during image capture. 
-- Set the resolution chart vertically
-- Click “Capture” to take the image. You may have to wait a few seconds for the data to transfer back to the computer. Once it has completed, you should get a message in the GUI and should be able to see a jpeg file in the location you specified. Double-click on the image, to ensure a satisfactory image. Re-take if necessary. 
-- Once you are satisfied, rename the image with the distance in the filename. 
-- Repeat this process for the distances calculated in your prelab (1, 2, and 5 m).
-
-## Lab station cleanup
-
-- Transfer all captured images to your group's storage location
-- Carefully disconnect the micro-USB to USB cable from your laptop and the Arduino microcontroller
+- Transfer any captured images to your group's storage location
+- Disconnect devices from FlatSAT and all computers
 - Remove the ESD wrist straps and replace them in the bag at your lab station.
 - Replace all items at your lab station the way you found them. 
 - Close the GUI, close the Arduino IDE, and log out of the laptop.
 - Have your instructor check off your lab station before you depart.
 
-## Data Reduction (after the lab)
 
-To determine the camera's resolution for each distance, find the point where you can distinguish each individual line. Refer to the scale you recorded during your lab. If the smallest lines you can resolve are 2/3 mm wide, your camera's resolution is 0.667 mm. 
-
-Include the measured resolution for each distance (0.5 m, 1 m, 2 m, and 5 m) in the results section of your team’s final lab report. Is your resolution different in the corners vs the center of the image? If so, discuss possible causes. 
