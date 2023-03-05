@@ -1,54 +1,65 @@
-# Lab 3 is currently broken!!
-
-
-
 # Lab 3: communication
 
 In this lab you will build FlatSAT's communication system including the onboard radio, antenna, and ground station, to ensure FlatSAT has sufficient link margin to communicate from orbit. You will test communication and measure signal strength at multiple link distances to characterize the link budget. In your final lab report, you will need to compare your prelab predictions to your experimental results. 
 
+In this lab one laptop (the lab PC) will serve as FlatSAT's ground station. You will run custom ground station software using the Thonny python IDE. 
+
+Your personal laptop will power FlatSAT via the USB cable and serve as a serial monitor. You must install the Arduino IDE. 
+
 ## documentation
 
 - Arduino MKR Zero pinout
-- `lab 03 communication.ino`
 
 ## software
 
 - Arduino IDE
+  
   - `lab 03 communication.ino`
 
 - Arduino libraries (install by running `install_libraries.bat`)
+  
   - RTCZero
+  - XBee-Arduino library
+  - Wifi101
+  - Wifi
+  - BreezyArduCAM_single_jpeg
+
 - Thonny IDE
+  
+  - `.\ground_station\main.py`
+
+- Python packages (install by running `install_packages.py`)
+  
+  - pyqt5
+  - jinja2
 
 ## hardware
 
 * ESD-safe grounding straps
+
 * FlatSAT
+  
   * INA219 current sensor
   * ArduCAM-M-2MP
+  * Digi XBee (small black board atop a small red board---should have "R" written on it)
 
-* Digi XBee (small black board atop a small red board)
-* SparkFun XBee explorer dongle (USB)
+* SparkFun XBee explorer dongle (USB, with black board mounted---should have "XXC" written on it)
+
 * 3 antennas (2 small, 1 large)
+
 * 3 LEDs
+
 * cables and wires
-
-
-
-![image-20230114103713337](C:\Users\jordan\AppData\Roaming\Typora\typora-user-images\image-20230114103713337.png)
-
-
 
 ## setup
 
 Whenever you handle the Arduino or any microcontroller electronics, be sure that you have a grounding strap on, to prevent unintentional electro-static discharge (ESD). The strap should have contact with your skin and the banana plug end should plug into one of the grounding holes (indicated in red) on the front of your lab bench. There are two grounding plugs at each lab station.
 
-In this lab FlatSAT will be powered by a 3-cell Lithium Ion battery via a 5V BEC, as it was in the electrical power lab. However, during the initial steps including code upload, FlatSAT will be powered via USB. 
-
 - connect power and ground lines
+  
   - Top rail: 3.3 V (diagram: orange wires)
     - 3.3 V supply comes from VCC pin of Arduino
-  
+
 - connect XBee radio
 
 <img src="sources\comm_bb.svg" alt="solar_bb"  />
@@ -63,7 +74,6 @@ Connect serial lines
 
 - XBee 3 (DOUT) -> Arduino D13 (RX)
 - XBee 4 (DIN) -> Arduino D14 (TX) 
-
 
 ArduCAM-M-2MP communicates with Arduino using both I2C and SPI. The Arduino sketch handles these protocols with the `Wire` and `SPI` libraries. I2C: sensor configuration. SPI: camera commands and data stream (images). 
 
@@ -88,49 +98,15 @@ Connect SPI comm lines
 
 **\*Note**: some components and documentation use master/slave terminology (MISO/MOSI), and some use controller/peripheral (CIPO/COPI). MISO = CIPO, MOSI = COPI. 
 
+## Program FlatSAT
 
-
-### Prepare for communication testing
-
-For communication testing, FlatSAT will be powered by a 3-cell 18650 Lithium ion battery with the cells connected in series, providing a nominal 11.1 V. The input pin of an Arduino MKR Zero (or MKR 1000) can tolerate 5-5.5 V. You will use a switching regulator called a BEC to step the supply voltage down from 12 V to 5 V. 
-
-Arduino will further step the 5 V down to 3.3 V for its internal logic. 3.3 V out is also available on the Vcc pin to power peripherals. 
-
-Arduino pins: 
-
-- Vin: 5 V power input
-- 5V: 5 V power output (for some peripherals)
-- Vcc: 3.3 V power output
-- Gnd
-
-**Note**: applying 12 V directly to Vin will break your Arduino. 
-
-- Velcro the battery holder to back of breadboard. 
-- Connect 3-cell 18650 Li-ion holder to posts on breadboard holder. 
-
-- Using banana plugs, connect the battery holder wires to the posts on your breadboard
-  - Red: positive
-  - Black: negative
-- Connect the BEC 
-  - 12 V side connects to breadboard posts
-  - 5 V side connects to FlatSAT
-    - Red: Vin
-    - Black: ground rail
-- **Have your instructor check your connections**
-
-
-
-
-
-
-
-## Part 2 – Opening up Arduino IDE
-
-- Open `lab 03 communication.ino` in Arduino IDE
-- From the tools menu, select the correct board (MKR 1000) and port
-- Note the number written on tape on the bottom of your XBee module—a 2-digit number between 31 and 35. Record this number in your lab notebook. 
-- Check the back of your XBee USB dongle—it should be the same. 
-- In `lab 03 communication.ino` you will see a line that says “#define PAN_ID “3331””. Ensure that the last two digits in the PAN_ID match the two digits that were on the tape on the bottom of your XBees. In this screenshot, the matching number on the FlatSat would be “32.” If the PAN_ID does not match the number on your FlatSat module, modify the last two digits to match the number on your FlatSat module. This step syncs your radios so that they won’t interfere with the radios of other lab groups.
+- Connect the USB Xbee explorer into the lab PC
+  - Note the number written it tape on this XBee module---it should be "XXC." This number is the last 2 digits of the channel your radio will use. Each group will use a different channel to avoid interference. Write this number in your lab notebook. 
+- Connect FlatSAT to the lab PC
+- Open `lab 03 communication.ino`
+- From the tools menu, select the correct board (MKR Zero) and port
+  - Note the port number (COMXX) of the "Unknown" device and record it in your lab notebook. This is the serial port number of your ground station's XBee device.
+- In `lab 03 communication.ino` you will see a line that says “#define PAN_ID “3332”. Ensure that the last two digits in the PAN_ID match the two digits that were on the tape on your XBee. In this screenshot, the matching number on the FlatSat would be “32.” If the PAN_ID does not match the number on your FlatSat module, modify the last two digits to match the number on your FlatSat module. This step syncs your radios so that they won’t interfere with the radios of other lab groups.
 
 ![img](sources/clip_image008.jpg)
 
@@ -138,9 +114,7 @@ Arduino pins:
 - Upload the file to the Arduino. You should see the LED labelled “L” on the Arduino board blink three times in rapid succession when the upload completes. You will also get a message in the black dialog box at the bottom of the IDE window. If you have any errors uploading, double check that you have the correct board and port selected.
 - Gently disconnect the USB cable from the Arduino and disconnect the USB end of the cable from the laptop.
 
- 
-
-## Part 3 – Setting up the Communication
+## Setup the ground station
 
 - Set up the ground station antenna. Pull out the XBee USB dongle (looks like a red USB stick). It should have a black Digi XBee Radio module mounted on the top that looks just like the shield mounted on top of the XBee Explorer board. That is the radio module. Carefully screw in one small antenna to your ground radio (XBee USB Dongle) and the other small antenna to your FlatSat radio. 
 
@@ -158,11 +132,12 @@ Arduino pins:
 
 ![img](sources/clip_image008-1675315164882-7.jpg)
 
-##  Part 4 – Connecting the FlatSat Module to the second laptop
+## Part 4 – Connecting the FlatSat Module to the second laptop
 
 - Carefully connect the USB cable to the Arduino MKR 1000 and a USB port on a second laptop (either your own cadet one or an extra lab station laptop). You should see a green LED light up on the board, indicating it has power.
 
 - Open Arduino IDE 
+
 - From the tools menu, select the correct board (MKR 1000) and port
 
 - Open the serial monitor (tools menu)
@@ -219,12 +194,6 @@ Arduino pins:
 
 - Try changing out your small antenna on your ground station antenna (the small red USB stick) with the larger antenna – representing that ground stations typically have much higher gain than the spacecraft. Gently disconnect the XBee USB Dongle from the laptop before you unscrew the small antenna and screw in the large antenna. The large antenna has a gain of 5 dB – see if you notice the difference in the RSSI values. Try taking a measurement at one of the distances you already did (0.5, 1, 2 or 5 m) and compare your results.
 
-
-
-
-
-
-
 ## send data
 
 - You may be as far or as close as you would like for these next few steps.
@@ -239,17 +208,7 @@ Arduino pins:
 
 - Try to take an image with the ArduCAM and send it back over the radio link to the ground station (lab station laptop). Using your cell phone or watch, time how long it takes from the time you send the command to take an image until you receive it (it should pop open) on the ground station (lab station laptop). The command for that is “get_picture”. Recall from our Payloads lesson that it could take a while if the data rate is not very high. If you are able to receive an image, save the image to include the image in your final lab report. If you don’t receive anything after five minutes, you may close communications by click on the red “x” icon. Whether you receive an image or not, comment on how long it took and what that means for the FlatSat communications design.
 
-
-
-
-
-
-
-
-
 # leftovers from camera lab
-
-
 
 You will use your camera to record images at the same distances you predicted in the prelab (except 500 km). 
 
