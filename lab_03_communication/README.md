@@ -106,8 +106,8 @@ Connect SPI comm lines
 - Open `lab 03 communication.ino`
 - From the tools menu, select the correct board (MKR Zero) and port
   - Note the port number (COMXX) of the "Unknown" device and record it in your lab notebook. This is the serial port number of your ground station's XBee device.
-- In `lab 03 communication.ino` you will see a line that says “#define PAN_ID “3332”. Ensure that the last two digits in the PAN_ID match the two digits that were on the tape on your XBee. In this screenshot, the matching number on the FlatSat would be “32.” If the PAN_ID does not match the number on your FlatSat module, modify the last two digits to match the number on your FlatSat module. This step syncs your radios so that they won’t interfere with the radios of other lab groups.
-
+- In `lab 03 communication.ino` you will see a line that says “#define PAN_ID “3332”. Ensure that the last two digits in the PAN_ID match the two digits that were on the tape on your XBee. In this screenshot, the matching number on the FlatSat would be “32.” If the PAN_ID does not match the number on your FlatSat module, modify the last two digits to match the number on your FlatSat module. This step syncs your radios so that they won't interfere with the radios of other lab groups.
+ 
 ![img](sources/clip_image008.jpg)
 
 - Compile (verify) your file. 
@@ -207,9 +207,9 @@ Connect SPI comm lines
 
 - Repeat Step 15 for Digital Pin 4 and Digital Pin 5. Try this at various distances around the lab to see how far your radio link will allow you to send commands from. Try walking out into the hallway and see how far you can get and still receive commands. (The measuring tape is only 30’, so you’ll have to approximate distances.) You will need to comment on how far you are able to transmit and receive in your final lab report.
 
-- At a short distance, try to take an image with FlatSAT and send it back over the radio link to the ground station (lab station laptop). Using your cell phone or watch, time how long it takes from the time you send the command to take an image until you receive it on the ground station (it should pop open automatically when transfer is complete). The command for that is “get_picture”. Recall from our Payloads lesson that it could take a while if the data rate is not very high. If you are able to receive an image, save the image to include the image in your final lab report. If you don’t receive anything after five minutes, you may close communications by click on the red “x” icon. Whether you receive an image or not, comment on how long it took and what that means for the FlatSat communications design.
+- At a short distance, try to take an image with FlatSAT and send it back over the radio link to the ground station (lab station laptop). Using your cell phone or watch, time how long it takes from the time you send the command to take an image until you receive it on the ground station (it should pop open automatically when transfer is complete). The command for that is “get_picture”. Recall from our Payloads lesson that it could take a while if the data rate is not very high. If you are able to receive an image, save the image to include the image in your final lab report. If you don't receive anything after five minutes, you may close communications by click on the red "x" icon. Whether you receive an image or not, comment on how long it took and what that means for the FlatSat communications design.
 
-# ## Lab station cleanup
+## Lab station cleanup
 
 - Transfer any captured images to your group's storage location
 - Disconnect devices from FlatSAT and all computers
@@ -217,5 +217,3 @@ Connect SPI comm lines
 - Replace all items at your lab station the way you found them. 
 - Close the GUI, close the Arduino IDE, and log out of the laptop.
 - Have your instructor check off your lab station before you depart.
-
-
