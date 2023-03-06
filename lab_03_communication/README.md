@@ -4,7 +4,11 @@ In this lab you will build FlatSAT's communication system including the onboard 
 
 In this lab one laptop (the lab PC) will serve as FlatSAT's ground station. You will run custom ground station software using the Thonny python IDE. 
 
-Your personal laptop will power FlatSAT via the USB cable and serve as a serial monitor. You must install the Arduino IDE. 
+Your personal laptop will power FlatSAT via the USB cable and serve as a serial monitor. You must install the Arduino IDE.  
+
+Prelab report instructions: https://www.overleaf.com/read/qksywqwkjcqb
+
+
 
 ## documentation
 
@@ -107,7 +111,7 @@ Connect SPI comm lines
 - From the tools menu, select the correct board (MKR Zero) and port
   - Note the port number (COMXX) of the "Unknown" device and record it in your lab notebook. This is the serial port number of your ground station's XBee device.
 - In `lab 03 communication.ino` you will see a line that says “#define PAN_ID “3332”. Ensure that the last two digits in the PAN_ID match the two digits that were on the tape on your XBee. In this screenshot, the matching number on the FlatSat would be “32.” If the PAN_ID does not match the number on your FlatSat module, modify the last two digits to match the number on your FlatSat module. This step syncs your radios so that they won't interfere with the radios of other lab groups.
- 
+
 ![img](sources/clip_image008.jpg)
 
 - Compile (verify) your file. 
