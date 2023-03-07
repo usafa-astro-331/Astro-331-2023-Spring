@@ -66,7 +66,12 @@ Whenever you handle the Arduino or any microcontroller electronics, be sure that
 
 - connect XBee radio
 
-<img src="sources\comm_bb.svg" alt="solar_bb"  />
+- Add 3 LEDs and a resistor
+  - positive leg (bent/longer leg) must be connected to + (digital output pins 3, 4, 5)
+  - other leg must be connected to ground *through a resistor*
+
+
+<img src="sources\comm_led_bb.svg" alt="breadboard"  />
 
 ### XBee breakout
 
