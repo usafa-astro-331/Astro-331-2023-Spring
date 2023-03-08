@@ -206,17 +206,17 @@ Connect SPI comm lines
 
 ## send data
 
-- You may be as far or as close as you would like for these next few steps.
+- You may be as far or as close as you would like for these next few steps 
 
-- Within the case at your lab station, you should have more wires and 3 LEDs. On the Arduino on your FlatSat module, connect an LED from Digital Pin 3 (D3) to the black ground rail on the breadboard. Ensure that the short leg, indicated with the indent on the LED is the pin going to ground. Repeat this with another LED from Digital Pin 4 (D4) to the black ground rail and another LED from Digital Pin 5 (D5) to the black ground rail.
+- 
 
 - Click on the teal Arduino icon on the top-left to open communications between the ground radio and the FlatSat radio. As before, you should see a message pop up saying “Attempting to connect to OSCAR-12.” Then, a second or so later you should see another message saying “OSCAR-12 Command Port Ready.”
 
 - Within the “Cube Sat Response” dialog box, type in the command “turn_on_pin_3”. You should see the LED connected to Digital Pin 3 light up. Then type in the command “turn_off_pin_3”. You should see the LED connected to Digital Pin 3 turn off. 
 
-- Repeat Step 15 for Digital Pin 4 and Digital Pin 5. Try this at various distances around the lab to see how far your radio link will allow you to send commands from. Try walking out into the hallway and see how far you can get and still receive commands. (The measuring tape is only 30’, so you’ll have to approximate distances.) You will need to comment on how far you are able to transmit and receive in your final lab report.
+- Repeat Step 15 for Digital Pin 4 and Digital Pin 5. Try this at various distances around the lab to see how far your radio link will allow you to send commands from. Try walking out into the hallway and see how far you can get and still receive commands. (The measuring tape is only 30’, so you’ll have to approximate distances–use the floor tiles as a standardized distance.) You will need to comment on how far you are able to transmit and receive in your final lab report.
 
-- At a short distance, try to take an image with FlatSAT and send it back over the radio link to the ground station (lab station laptop). Using your cell phone or watch, time how long it takes from the time you send the command to take an image until you receive it on the ground station (it should pop open automatically when transfer is complete). The command for that is “get_picture”. Recall from our Payloads lesson that it could take a while if the data rate is not very high. If you are able to receive an image, save the image to include the image in your final lab report. If you don't receive anything after five minutes, you may close communications by click on the red "x" icon. Whether you receive an image or not, comment on how long it took and what that means for the FlatSat communications design.
+- At a short distance, try to take an image with FlatSAT and send it back over the radio link to the ground station (lab station laptop). You can watch the data streaming in Thonny. Using your cell phone or watch, time how long it takes from the time you send the command to take an image until you receive it on the ground station (it should pop open automatically when transfer is complete). The command for that is “get_picture”. Recall from our Payloads lesson that it could take a while if the data rate is not very high. If you are able to receive an image, save the image to include the image in your final lab report. If you don't receive anything after five minutes, you may close communications by click on the red "x" icon. Whether you receive an image or not, comment on how long it took and what that means for the FlatSat communications design.
 
 ## Lab station cleanup
 
