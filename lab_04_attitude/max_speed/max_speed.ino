@@ -57,27 +57,33 @@ analogReadResolution(12);
   
 }
 
+float speed_command;
 
 int t; 
 int t0 = millis(); // set start time right before loop
 
-float speed_command;
 
 void loop() {
 
 t = millis();
 
-if(t-t0<1000){
-   speed_command = 0; 
-  
-}
-else if(t-t0<2000){
-    speed_command = 1;
-    
-  }
-  else{t0=t ;}
+Serial.print(t); 
+Serial.print(",");
 
-driver.setOutput(speed_command); 
+
+if(t-t0<1500){
+
+}
+else if(t-t0<4000){
+    Serial.print(1);
+    driver.setOutput(1); 
+  }
+  else{ 
+    driver.setOutput(0); 
+    while(1){} }
+
+
+Serial.print(",");
 
 
 
@@ -106,11 +112,6 @@ motor_current_voltage = motor_current_count * 3.3/4095;
 motor_current = motor_current_voltage *2000; 
 
 
-
-Serial.print(t);
-Serial.print(",");
-Serial.print(speed_command);
-Serial.print(",");
 Serial.print(speed_rpm);
 Serial.print(",");
 Serial.println(motor_current);

@@ -66,13 +66,13 @@ The inertial measurement unit (IMU) communicates with Arduino via SPI. However, 
 
 ![SPI_labels](sources/SPI_labels.jpg)
 
-- (IMU pin–Arduino pin)
-- GND to ground
-- Vin to 5V
-- MOSI to MOSI (may be labelled COPI)
-- SCLK to SCK
-- MISO to MISO (may be labelled CIPO)
-- CS to D6
+- (wrong IMU pin) right IMU pin–Arduino pin
+- (GND) GND to ground
+- (Vin) Vin to 5V
+- (DA) MOSI to MOSI (may be labelled COPI)
+- (CL) SCLK to SCK
+- (AD0) MISO to MISO (may be labelled CIPO)
+- (NC) CS to D6
 
 ### motor driver
 
@@ -80,12 +80,26 @@ The motor driver uses pulse width modulated (PWM) digital signals from Arduino t
 
 ![motor_driver](sources/motor_driver.jpg)
 
-- Connect GND and ENB to ground
-- Connect VCC and EN to 5V
-- Connect the PWM lines
-  - PWM2–Arduino D3 (~3)
-  - PWM1–Arduino D2 (~2)
+- (driver pin–Arduino pin)
+
+- GND to ground
+
+- ENB to ground
+
+- VCC to 5V
+
+- EN to 5V
+
+- PWM2–D3 (~3)
+
+- PWM1–D2 (~2)
+
+- OCM–A1
+
+  
+
 - leave 2 wires sticking out of Vin and GND (the motor side)
+
   - These will later connect to a 12V supply for motor power
 
 ### motor
