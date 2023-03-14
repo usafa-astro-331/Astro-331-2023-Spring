@@ -74,7 +74,7 @@ Serial.print(",");
 if(t-t0<1500){
 
 }
-else if(t-t0<4000){
+else if(t-t0<10000){
     Serial.print(1);
     driver.setOutput(1); 
   }
