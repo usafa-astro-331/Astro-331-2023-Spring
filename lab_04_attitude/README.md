@@ -77,9 +77,13 @@ The inertial measurement unit (IMU) communicates with Arduino via SPI. However, 
 
 ### motor driver
 
-The motor driver uses pulse width modulated (PWM) digital signals from Arduino to control the speed of a brushed motor. 
-
 ![motor_driver](sources/motor_driver.jpg)
+
+FlatSAT controls a brushed DC motor via a Toshiba TB9051FTG brushed motor driver. FlatSAT sends a low-volt/low-current pulse-width modulated (PWM) signal to the motor driver board. The driver board provides line voltage to the motor at the same duty cycle. A high signal is full voltage and a low signal is zero voltage, and we use the duty cycle to essentially act as a fraction between those two. So, a 50% duty cycle corresponds to applying 50% of the total voltage that would correspond to the motor’s top speed. Thus, the higher the PWM command, the faster the motor will spin.
+
+![img](sources/clip_image002.jpg)
+
+
 
 - (driver pin–Arduino pin)
 
