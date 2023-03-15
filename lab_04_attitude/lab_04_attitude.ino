@@ -48,9 +48,9 @@ File dataFile;
 
 void setup() {
   SERIAL_PORT.begin(115200);
-  while (!SERIAL_PORT)
-  {
-  };
+//  while (!SERIAL_PORT)
+//  {
+//  };
 
 // ----- ICM 20948 IMU
   SPI_PORT.begin();
