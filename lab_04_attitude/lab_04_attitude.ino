@@ -34,7 +34,9 @@
 
   float speed_pwm;
 
-
+  // ----- SD card -----
+  #include <SD.h>
+  const int chipSelect = SDCARD_SS_PIN;
 
   // ----- time variables -----
   int print_time = 0 ; 
@@ -76,38 +78,195 @@ void setup() {
   driver.enable();
 
   
-  
-  
   // put your setup code here, to run once:
   pinMode(A0,OUTPUT);
-  pinMode(A1,OUTPUT);
-  pinMode(A2,OUTPUT);
-  pinMode(A3,OUTPUT);
   
-}
+    Serial.print("Initializing SD card...");
+  // see if the card is present and can be initialized:
+  if (!SD.begin(chipSelect)) {
+    Serial.println("Card failed, or not present");
+    // don't do anything more:
+    while (1);
+  }
+  Serial.println("card initialized.");
+     
+                File dataFile = SD.open("datalog.txt", FILE_WRITE);
+              // if the file is available, write to it:
+              if (dataFile) {
+                dataFile.println("start of data");
+                dataFile.println("current (mA), voltage (V)");
+                dataFile.close();
+              }
+              // if the file isn't open, pop up an error:
+              else { Serial.println("error opening datalog.txt");  }
 
-float angle;
+  Serial.println('time (ms),gyr z (dps), mag x (uT), mag y (uT), wheel (RPM)');
+} // end function setup
+
 
 int speed; 
 
 int t; 
 int t0 = millis(); // set start time right before loop
 
+// write accel data (to SD and/or serial) every `write_interval` ms
+int last_wrote = 0; 
+int write_interval = 100; // ms
+
+
+float set_speed(){
+	t = millis() - t0; 
+
+	if ( t-t0 < 10e3){ // hold still at half speed (10 sec)
+		throttlePWM = 0.5; 
+  }
+
+  else if ( t-t0 < 15e3){ // hold still at half speed (5 sec)
+		throttlePWM = 0.5; 
+    digitalWrite(A0,HIGH); 
+  }
+
+	else if (t-t0 < 17.5e3){ // ramp up (2.5 sec)
+		elapsed = t - 15e3 ;
+		throttlePWM = 0.5 + 0.1*elapsed/2.5e3;
+    digitalWrite(A0,LOW); 
+  }
+
+	else if (t-t0 < 20e3){ // ramp back down to half speed (2.5 sec)
+		elapsed = t - 17.5e3; 
+		throttlePWM = 0.6 - 0.1*elapsed/2.5e3;
+  }
+
+	else if (t-t0 < 25e3){ // hold new position (5 sec)
+		throttlePWM = 0.5;
+    digitalWrite(A0,HIGH); 
+  }
+
+	else if (t-t0 < 27.5e3){ // ramp down (2.5 sec)
+		elapsed = t - 25e3;
+		throttlePWM = 0.5 - .1*elapsed/2.5e3; 
+    digitalWrite(A0,LOW); 
+  }
+	else if (t-t0 < 30e3){ // ramp back up to half speed  (5 sec)
+		elapsed = t - 27.5e3; 
+		throttlePWM = .4 + .1*elapsed/2.5e3; 
+  }
+
+	else if (t-t0 < 35e3){ // hold new position (5 sec)
+		throttlePWM = 0.5;
+    digitalWrite(A0,HIGH); 
+  }
+
+	else { // turn off wheel 
+		throttlePWM = 0;
+    digitalWrite(A0,LOW); 
+  }
+
+  driver.setOutput(throttlePWM);
+
+	return throttlePWM;
+} // end set_speed()
+
+void printFormattedFloat(float val, uint8_t leading, uint8_t decimals)
+{
+  float aval = abs(val);
+  if (val < 0)
+  {
+    SERIAL_PORT.print("-");
+  }
+  else
+  {
+    SERIAL_PORT.print(" ");
+  }
+  for (uint8_t indi = 0; indi < leading; indi++)
+  {
+    uint32_t tenpow = 0;
+    if (indi < (leading - 1))
+    {
+      tenpow = 1;
+    }
+    for (uint8_t c = 0; c < (leading - 1 - indi); c++)
+    {
+      tenpow *= 10;
+    }
+    if (aval < tenpow)
+    {
+      SERIAL_PORT.print("0");
+    }
+    else
+    {
+      break;
+    }
+  }
+  if (val < 0)
+  {
+    SERIAL_PORT.print(-val, decimals);
+  }
+  else
+  {
+    SERIAL_PORT.print(val, decimals);
+  }
+} //end printformattedfloat()
+
+void printScaledAGMT(ICM_20948_SPI *sensor){
+  // SERIAL_PORT.print("Gyr (DPS) [ ");
+  printFormattedFloat(sensor->gyrZ(), 5, 2);
+  // SERIAL_PORT.print(" ], Mag (uT) [ ");
+  SERIAL_PORT.print(", ");
+  printFormattedFloat(sensor->magX(), 5, 2);
+  SERIAL_PORT.print(", ");
+  printFormattedFloat(sensor->magY(), 5, 2);
+  // SERIAL_PORT.print(" ]");
+  SERIAL_PORT.print(", ");
+  
+  }
+
+
+
 void loop() {
+t = millis();
 
 
-  // if (myICM.dataReady())
-  // {
-  //   myICM.getAGMT();         // The values are only updated when you call 'getAGMT'
-  //                               printRawAGMT( myICM.agmt );     // Uncomment this to see the raw values, taken directly from the agmt structure
-  //   // printScaledAGMT(&myICM); // This function takes into account the scale settings from when the measurement was made to calculate the values with units
-  //   // delay(30);
-  // }
-  // else
-  // {
-  //   // SERIAL_PORT.println("Waiting for data");
-  //   // delay(500);
-  // }
+    
+
+
+speed_pwm = set_speed(); 
+
+
+
+
+ 
+
+if (t-last_wrote>write_interval){
+  Serial.print(t);
+  Serial.print(", ");
+  
+  myICM.getAGMT();         // The values are only updated when you call 'getAGMT'
+  printScaledAGMT(&myICM); // This function takes into account the scale settings from when the measurement was made to calculate the values with units
+  
+// Read current encoder count
+    currentEncoderCount = Encoder.getEncoderCount();
+    // Determine how much time has elapsed since last measurement
+    timeElapsed = millis()-lastMilli;
+    // Calculate speed in rpm
+    // encoder is 64 counts per rev
+    // motor is 10:1 geared
+    // counts/ms * 1 rev/64 counts * 1000 ms/1 sec * 60 s/1 min * 1 rot/10 gears = rev/min
+    speed_rpm = float(currentEncoderCount - lastEncoderCount)/timeElapsed/64*1000*60/10;
+    // reset variables to most recent value
+    lastMilli = millis();
+    lastEncoderCount = currentEncoderCount;
+    // Print to serial monitor
+// Serial.print("Time (ms) = ");
+//     Serial.print(lastMilli);
+//     Serial.print(", Speed (RPM) = ");
+    Serial.println(speed_rpm);
+    // delay(10);
+
+
+  last_wrote += write_interval; 
+}
+
 
 
 
@@ -118,93 +277,7 @@ void loop() {
 // digitalWrite(A2,HIGH); 
 // digitalWrite(A3,HIGH); 
 
-//   delay(250); 
-
-//   digitalWrite(A0,LOW); 
-//   digitalWrite(A1,LOW); 
-//   digitalWrite(A2,LOW); 
-//   digitalWrite(A3,LOW); 
-
-//   delay(250); 
-
-speed_pwm = set_speed(); 
-Serial.println(speed_pwm);
-delay(350);
-
-// current_time = millis();
-// if (print_time+print_delay > current_time){
-//   Serial.println(speed_pwm); 
-//   print_time += print_delay; 
-
-// } // end time to print
-
-}
 
 
-void printRawAGMT(ICM_20948_AGMT_t agmt)
-{
 
-  // SERIAL_PORT.print(agmt.mag.axes.x);
-  // SERIAL_PORT.print(", ");
-  // SERIAL_PORT.print(agmt.mag.axes.y);
-  // SERIAL_PORT.print(", ");
-  // SERIAL_PORT.print(agmt.mag.axes.z);
-
-  angle = atan2(agmt.mag.axes.y, agmt.mag.axes.x); 
-  angle = angle*180/3.1415926;
-  if(angle<0){
-    angle+= 360;
-  }
-
-  SERIAL_PORT.print(angle);
- 
-  SERIAL_PORT.println();
-}
-
-
-float set_speed(){
-	t = millis() - t0; 
-  Serial.println(t);
-
-	if ( t-t0 < 10e3){ // hold still at half speed (10 sec)
-		elapsed = t - 10e3 ;
-		throttlePWM = 0.5*elapsed/5e3; 
-    
-    Serial.println(throttlePWM);
-  }
-	else if (t-t0 < 15e3){ // ramp up to full speed (5 sec)
-		elapsed = t - 10e3 ;
-		throttlePWM = 0.5 + 0.5*elapsed/5e3;
-  }
-	else if (t-t0 < 20e3){ // ramp back down to half speed (5 sec)
-		elapsed = t - 15e3; 
-		throttlePWM = 1 - 0.5*elapsed/5e3;
-  }
-	else if (t-t0 < 25e3){ // hold new position (5 sec)
-		throttlePWM = 0.5;
-  }
-	else if (t-t0 < 30e3){ // ramp down to (near) motionless (5 sec)
-		elapsed = t - 25e3;
-		throttlePWM = 0.5 - .45*elapsed/5e3; 
-  }
-	else if (t-t0 < 35e3){ // ramp back up to half speed  (5 sec)
-		elapsed = t - 30e3; 
-		throttlePWM = .05 + .45*elapsed/5e3; 
-  }
-	else { // hold position 
-		throttlePWM = 0.5;
-  }
-
-  driver.setOutput(throttlePWM);
-
-	return throttlePWM;
-}
-
-float max_speed(){
-  driver.setOutput(1); 
-}
-
-float zero_speed(){
-  driver.setOutput(0); 
-
-}
+} // end loop()
