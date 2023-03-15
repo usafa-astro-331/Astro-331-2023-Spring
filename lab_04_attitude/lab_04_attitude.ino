@@ -103,7 +103,7 @@ void setup() {
 
   Serial.println('time (ms),gyr z (dps), mag x (uT), mag y (uT), wheel (RPM)');
 
-   dataFile = SD.open("accel.csv", FILE_WRITE);
+   dataFile = SD.open("attitude.csv", FILE_WRITE);
               // if the file is available, write to it:
               if (dataFile) {
                 dataFile.println("start of data");
