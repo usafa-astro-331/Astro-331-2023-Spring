@@ -103,7 +103,6 @@ void setup() {
   Serial.println('time (ms),gyr z (dps), mag x (uT), mag y (uT), wheel (RPM)');
 } // end function setup
 
-
 int speed; 
 
 int t; 
@@ -167,16 +166,19 @@ float set_speed(){
 	return throttlePWM;
 } // end set_speed()
 
-void printFormattedFloat(float val, uint8_t leading, uint8_t decimals)
+String printFormattedFloat(float val, uint8_t leading, uint8_t decimals)
 {
+  String write_line = ""; 
   float aval = abs(val);
   if (val < 0)
   {
-    SERIAL_PORT.print("-");
+    write_line += "-";
+    // SERIAL_PORT.print("-");
   }
   else
   {
-    SERIAL_PORT.print(" ");
+    write_line += " ";
+    // SERIAL_PORT.print(" ");
   }
   for (uint8_t indi = 0; indi < leading; indi++)
   {
@@ -191,7 +193,8 @@ void printFormattedFloat(float val, uint8_t leading, uint8_t decimals)
     }
     if (aval < tenpow)
     {
-      SERIAL_PORT.print("0");
+      write_line += "0";
+    // SERIAL_PORT.print("0");
     }
     else
     {
@@ -200,25 +203,34 @@ void printFormattedFloat(float val, uint8_t leading, uint8_t decimals)
   }
   if (val < 0)
   {
-    SERIAL_PORT.print(-val, decimals);
+    write_line += -val;
+    write_line += decimals; 
+    // SERIAL_PORT.print(-val, decimals);
   }
   else
   {
-    SERIAL_PORT.print(val, decimals);
+    write_line += val; 
+    write_line += decimals; 
+    // SERIAL_PORT.print(val, decimals);
   }
+  return write_line;
 } //end printformattedfloat()
 
-void printScaledAGMT(ICM_20948_SPI *sensor){
+String printScaledAGMT(ICM_20948_SPI *sensor){
   // SERIAL_PORT.print("Gyr (DPS) [ ");
-  printFormattedFloat(sensor->gyrZ(), 5, 2);
+  String write_line = "";
+  write_line += printFormattedFloat(sensor->gyrZ(), 5, 2);
   // SERIAL_PORT.print(" ], Mag (uT) [ ");
-  SERIAL_PORT.print(", ");
-  printFormattedFloat(sensor->magX(), 5, 2);
-  SERIAL_PORT.print(", ");
-  printFormattedFloat(sensor->magY(), 5, 2);
+  write_line += ", "; 
+  // SERIAL_PORT.print(", ");
+  write_line += printFormattedFloat(sensor->magX(), 5, 2);
+  // SERIAL_PORT.print(", ");
+  write_line += ", "; 
+  write_line += printFormattedFloat(sensor->magY(), 5, 2);
   // SERIAL_PORT.print(" ]");
-  SERIAL_PORT.print(", ");
-  
+  write_line += ", "; 
+  // SERIAL_PORT.print(", ");
+  return write_line; 
   }
 
 
@@ -238,11 +250,13 @@ speed_pwm = set_speed();
  
 
 if (t-last_wrote>write_interval){
-  Serial.print(t);
-  Serial.print(", ");
+  String write_line = "";
+  write_line += t; write_line += ", "; 
+  // Serial.print(write_line);
+  // Serial.print(", ");
   
   myICM.getAGMT();         // The values are only updated when you call 'getAGMT'
-  printScaledAGMT(&myICM); // This function takes into account the scale settings from when the measurement was made to calculate the values with units
+  write_line += printScaledAGMT(&myICM); // This function takes into account the scale settings from when the measurement was made to calculate the values with units
   
 // Read current encoder count
     currentEncoderCount = Encoder.getEncoderCount();
@@ -252,7 +266,7 @@ if (t-last_wrote>write_interval){
     // encoder is 64 counts per rev
     // motor is 10:1 geared
     // counts/ms * 1 rev/64 counts * 1000 ms/1 sec * 60 s/1 min * 1 rot/10 gears = rev/min
-    speed_rpm = float(currentEncoderCount - lastEncoderCount)/timeElapsed/64*1000*60/10;
+    write_line += float(currentEncoderCount - lastEncoderCount)/timeElapsed/64*1000*60/10;
     // reset variables to most recent value
     lastMilli = millis();
     lastEncoderCount = currentEncoderCount;
@@ -260,7 +274,7 @@ if (t-last_wrote>write_interval){
 // Serial.print("Time (ms) = ");
 //     Serial.print(lastMilli);
 //     Serial.print(", Speed (RPM) = ");
-    Serial.println(speed_rpm);
+    Serial.println(write_line);
     // delay(10);
 
 
