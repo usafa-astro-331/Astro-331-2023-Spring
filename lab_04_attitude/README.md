@@ -58,6 +58,7 @@ Whenever you handle the Arduino or any microcontroller electronics, be sure that
     - Note: this is different than previous labs!
     - 5 V supply comes from 5 V pin of Arduino
 - place IMU and motor driver on FlatSAT
+- place an LED on pin A0 and connect it to ground via a resistor—the short leg must connect to ground. 
 
 ![attitude_bb](sources/attitude_bb.svg)
 
