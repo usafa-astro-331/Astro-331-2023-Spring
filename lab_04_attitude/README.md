@@ -157,7 +157,7 @@ Turn off the power supply.
 
 ## attitude determination
 
-Now you will test FlatSAT's attitude sensor.  
+Now you will test FlatSAT's attitude sensor as the reaction wheel changes spacecraft attitude.   
 
 Install an SD card into FlatSAT. Open and upload `lab_04_attitude.ino`. Open the serial plotter and place FlatSAT in different orientations. Wave a magnet around the sensor. Disconnect FlatSAT. 
 
@@ -174,13 +174,14 @@ Tape FlatSAT to one end of the reaction wheel assembly. Using string, hang the a
 When you are ready, connect the BEC's 5 V output to Arduino's Vin. This is what will happen. 
 
 - The rotor will spin up and maintain a steady-state speed of approximately 500 RPM for approximately 10 seconds. Hold FlatSAT steady during this time. 
-- When the LED illuminates, remove your hand. FlatSAT will maintain a steady wheel speed for another 5 seconds. 
+- The LED will illuminate when FlatSAT is holding still. If it’s drifting you can help it gently. 
+- The LED will deluminate when FlatSAT is accelerating. Don’t touch it. 
 - FlatSAT's wheel speed will ramp up and back down over the course of 5 seconds, ending up at 500 RPM. FlatSAT should hold steady at this orientation for 5 seconds. 
-- FlatSAT's wheel speed will ramp down and back up over the course of 5 seconds, again ending up at 500 RPM. FlatSAT should hold stead at this orientation for 5 seconds. 
+- FlatSAT's wheel speed will ramp down and back up over the course of 5 seconds, again ending up at 500 RPM. FlatSAT should hold steady at this orientation for 5 seconds. 
 - FlatSAT will command the wheel to zero speed. FlatSAT will begin spinning quickly. 
 - After 5 seconds of spinning, stop FlatSAT and remove power. 
 
-FlatSAT will record information from its rate gyros and magnetometer to `attitude.log` on the SD card. Remove the SD card and save the data for your team's later use. 
+FlatSAT will record information from its rate gyros and magnetometer to `attitude.csv` on the SD card. Remove the SD card and save the data for your team's later use. 
 
 ## Lab station cleanup
 

@@ -294,7 +294,7 @@ if (t-last_wrote>write_interval){
 //     Serial.print(", Speed (RPM) = ");
     Serial.println(write_line);
 
-    File dataFile = SD.open("accel.csv", FILE_WRITE);
+    File dataFile = SD.open("attitude.csv", FILE_WRITE);
               // if the file is available, write to it:
               if (dataFile) {
                 dataFile.println(write_line);
@@ -303,7 +303,7 @@ if (t-last_wrote>write_interval){
               }
               // if the file isn't open, pop up an error:
               else {
-                Serial.println("error opening accel.txt");
+                Serial.println("error opening attitude.csv");
               }
 
               
