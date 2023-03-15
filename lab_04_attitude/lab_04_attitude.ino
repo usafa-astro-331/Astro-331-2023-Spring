@@ -44,6 +44,7 @@
   int current_time = 0; 
   int elapsed = 0; 
 
+File dataFile; 
 
 void setup() {
   SERIAL_PORT.begin(115200);
@@ -90,7 +91,7 @@ void setup() {
   }
   Serial.println("card initialized.");
      
-                File dataFile = SD.open("datalog.txt", FILE_WRITE);
+                dataFile = SD.open("datalog.txt", FILE_WRITE);
               // if the file is available, write to it:
               if (dataFile) {
                 dataFile.println("start of data");
@@ -101,6 +102,16 @@ void setup() {
               else { Serial.println("error opening datalog.txt");  }
 
   Serial.println('time (ms),gyr z (dps), mag x (uT), mag y (uT), wheel (RPM)');
+
+   dataFile = SD.open("accel.csv", FILE_WRITE);
+              // if the file is available, write to it:
+              if (dataFile) {
+                dataFile.println("start of data");
+                dataFile.close();
+
+              }
+
+
 } // end function setup
 
 int speed; 
@@ -156,9 +167,16 @@ float set_speed(){
     digitalWrite(A0,HIGH); 
   }
 
-	else { // turn off wheel 
+	else if (t-t0 < 40e3) { // turn off wheel 
 		throttlePWM = 0;
     digitalWrite(A0,LOW); 
+    driver.setOutput(0); 
+    
+  }
+
+  else {
+    while(1){}; 
+
   }
 
   driver.setOutput(throttlePWM);
@@ -275,23 +293,22 @@ if (t-last_wrote>write_interval){
 //     Serial.print(lastMilli);
 //     Serial.print(", Speed (RPM) = ");
     Serial.println(write_line);
-    // delay(10);
 
+    File dataFile = SD.open("accel.csv", FILE_WRITE);
+              // if the file is available, write to it:
+              if (dataFile) {
+                dataFile.println(write_line);
+                dataFile.close();
+
+              }
+              // if the file isn't open, pop up an error:
+              else {
+                Serial.println("error opening accel.txt");
+              }
+
+              
 
   last_wrote += write_interval; 
 }
-
-
-
-
-  
-//   // put your main code here, to run repeatedly:
-//   digitalWrite(A0,HIGH); 
-// digitalWrite(A1,HIGH); 
-// digitalWrite(A2,HIGH); 
-// digitalWrite(A3,HIGH); 
-
-
-
 
 } // end loop()
